@@ -42,7 +42,7 @@ $("input[name='pswd']").keyup(function(){
 		somb = 100;
 	}
 
-	if( (pwd.length >= 8)  && (pwd.match(/[@#$%&;*]/)) && (pwd.match(/[A-Z]+/))) {
+	if( (pwd.length >= 8)  && (pwd.match(/[@#$%&!*]/)) && (pwd.match(/[A-Z]+/))) {
 		pontos += 20;
 	}
 	
