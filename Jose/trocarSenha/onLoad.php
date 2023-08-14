@@ -1,0 +1,1 @@
+sc_ajax_javascript('testarSenha'); 

@@ -1,0 +1,1182 @@
+<html><head>
+		
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<title>Solicitar certificado</title>
+	<link rel="icon" type="image/png" href="/gestaofacil/images/gfsisfavicon.png">
+	<script type="text/javascript" async="" src="https://www.gstatic.com/recaptcha/releases/pCoGBhjs9s8EhFOHJFe8cqis/recaptcha__pt_br.js" crossorigin="anonymous" integrity="sha384-QB+eZbWOG5SmvNCnG0A+2G/BvH9g594PX3SyqB2Vu7KaxSUT7lY8XaV1mTnEkuAa"></script><script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
+	<script>
+		   function onDataCallback(token) {
+			 solicitar(false);
+		   }
+		   function onDataExpiredCallback(token) {
+			   alert('Sua sessão expirou, tente recarregar a página.')
+		   }
+		   function onDataErrorCallback(token) {
+			   alert('Erro ao validar sessão, verifique sua conexão de internet e tente recarregar a página.')
+		   }
+	 </script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/js/jquery-1.11.3.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/resource/js/jquery.selectboxes.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/js/jquery.maskedinput.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/js/bootstrap.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/js/bootstrap-combobox.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/js/waitingDialog.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/js/jquery.payform.min.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/js/utils.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/resource/js/input.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/resource/js/util.js"></script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/js/realizarpedido.js" charset="utf-8"></script>
+	<script type="text/javascript" language="JavaScript" src="/gestaofacil/js/jquery.blockUI.js"></script>
+	
+				
+	
+	<link rel="StyleSheet" href="/gestaofacil/css/bootstrap.css" type="text/css">	
+	<link rel="StyleSheet" href="/gestaofacil/css/bootstrap-combobox.css" type="text/css">	
+	<link rel="StyleSheet" href="/gestaofacil/css/font-awesome.min.css" type="text/css">
+	<link rel="StyleSheet" href="/gestaofacil/css/realizarpedido.css" type="text/css">
+	<link rel="StyleSheet" href="/gestaofacil/css/print.css" type="text/css" media="print">
+	<link rel="StyleSheet" href="/gestaofacil/css/print-preview.css" media="screen">
+	<link rel="StyleSheet" href="/gestaofacil/css/pix.css" type="text/css">
+			
+</head>
+
+<body>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-10 col-sm-offset-1">
+				<!-- Wizard container -->
+				<div class="wizard-container">
+					<div class="card wizard-card" data-color="blue" id="wizard">
+						<form id="formRealizarPedido" method="POST" name="form" enctype="multipart/form-data" action="/gestaofacil/publico/RealizarPedido" novalidate="novalidate">
+							<div sytle="display:none;">
+								<input type="hidden" id="tipoCertificado" value="">
+								<input type="hidden" id="tipoMidia" value="">
+								<input type="hidden" id="validade" value="">
+								<input type="hidden" id="idProduto" value="">
+								<input type="hidden" id="ordemEtapa" value="1">
+								<input type="hidden" id="informouProdutoUrl" value="false">
+								<input type="hidden" id="podeRealizarDelivery">
+								<input type="hidden" id="ambienteJunoProducao" value="true">
+								<input type="hidden" id="tokenPublicoJuno" value="">
+								<input type="hidden" id="creditCardHash" name="creditCardHash">			                    	
+								<input type="hidden" id="ultimoTipoCertificado" value="validacaoVideoConferenciaRadio">
+								<input type="hidden" id="ac" value="">		                    		
+							</div>
+							<div id="localidade" class="modal fade">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h3 class="modal-title">Localização</h3>
+										</div>
+										<div class="modal-body">
+											<h4>Por favor, selecione abaixo o local onde irá realizar o processo de validação presencial  ou via videoconferência  para aquisição do seu certificado digital:</h4>
+											<div class="form-group label-floating">
+												<label class="control-label">UF</label>
+												<select id="ufLocalizacao" name="ufLocalizacao" onchange="ufLocalizacaoOnChange()" class="form-control">
+													<option value="<null>"></option>
+													
+														<option value="53">DF</option>	
+													
+												</select>		                                        	
+											 <span class="material-input"></span></div>	
+											<div class="form-group label-floating">
+												<label class="control-label">Endereço</label>
+												<select id="pontoAtendimentoLocalizacao" name="pontoAtendimento" class="form-control">
+													
+												<option value="<null>"></option><option value="br.com.gestaofacil.faturamento.beans.PontoAtendimento[id=6]" selected="selected">Rua 12 Norte, Lote 2, 2 - Sede da Nosso Certificado - CEP: 71909-540 - Brasília/DF</option></select>		                                        	
+											 <span class="material-input"></span></div>
+											  
+												 <div>
+													 <input type="checkbox" id="semmunicipio_chk" name="semMunicipio" onclick="checkSemMunicipio()" value="true" class="checkboxClass">
+													 <label for="semmunicipio_chk"> Meu município não está nesta lista</label>
+												 </div>        
+																	 
+										</div>
+										<div class="modal-footer">
+											<button id="confirmarLocalizacao" type="button" class="btn btn-color">Selecionar</button>
+										</div>
+									</div>
+								</div>
+							</div>			                    	
+							
+							<div class="wizard-header" style="display: inline-flex; width: 90%;">
+								<div class="logoempresa-container">
+									<img src="/gestaofacil/DOWNLOADFILEPUB/50949">
+								</div>
+								<div id="titulo" style="text-align: left; width: 90%;">
+									<h3>Solicitar Certificado Digital</h3>
+									<div id="textoCabecalho"><p style="text-align: center;"><b style="font-size: 28px;"><span style="color: rgb(255, 0, 0); font-size: 28px;">ATENÇÃO</span></b></p><p style="text-align: center;"><span style="font-size: 24px;"><span style="color: rgb(255, 0, 0); font-size: 24px;">Esse link está desativado e qualquer compra feita através dele não será válida.</span><b style="font-size: 28px;"><br style="font-size: 28px;"><span style="font-size: 20px;">Para mais informações, entre em contato através do 61 3550-1746.</span></b></span></p></div>
+									<div id="textoCabecalhoVideoConferencia" style="display: none;"></div>
+									<br>
+									
+										<h7 id="telefoneContato">Em caso de dúvidas entrar em contato: <b>(61) 3550-1746 / contato@nossocertificado.com.br</b></h7><br>
+										<h7 id="enderecoContato">Endereço: BRASÍLIA - Rua 12 Norte, Lote 2, 2 - Sede da Nosso Certificado</h7>
+									
+								</div>
+							</div>		                    	
+							
+							
+								
+								
+								
+									<div class="wizard-navigation">
+										<ul class="nav nav-pills">
+											
+												<li class="active" style="width: 20%;"><a href="#validacao" data-toggle="tab" aria-expanded="true">Validação</a></li>
+											
+											
+												  <li style="width: 20%;"><a href="#certificado" data-toggle="tab">Certificado</a></li>
+											
+											<li style="width: 20%;"><a href="#cadastro" data-toggle="tab">Cadastro</a></li>
+											<li style="width: 20%;"><a href="#pagamento" data-toggle="tab">Pagamento</a></li>
+											<li style="width: 20%;"><a href="#confirmacao" data-toggle="tab">Confirmação</a></li>
+										</ul>
+									<div class="moving-tab" style="width: 88px; transform: translate3d(-8px, 0px, 0px); transition: transform 0s ease 0s;">Validação</div></div>
+								
+							
+							
+							<div class="tab-content">
+							
+								 <div class="tab-pane active" id="validacao">
+									<div class="container-fluid">
+										<div class="row">
+											<div class="col-sm-12"><h4 class="info-text">Selecione abaixo a forma de emissão do seu certificado:</h4><br></div>
+											<div id="row-videoconferencia" class="col-sm-12" style="text-align: center;">
+												<div class="col-sm-2" style="display: inline-table;">
+													<div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title="Para realizar a validação presencialmente na unidade selecionada.">
+														<input type="radio" onchange="onChangeVideoConferencia(this)" name="validacaoPresencialRadio">
+														<div class="icon">
+															<i class="fa fa-street-view"></i>
+														</div>
+														<h6>Presencial</h6>
+													</div>
+												</div>
+												
+												   
+													<div class="col-sm-2" style="display: inline-table;">
+														<div class="choice active" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title="Para realizar a validação de forma online via videoconferência">
+															<input type="radio" onchange="onChangeVideoConferencia(this)" name="validacaoVideoConferenciaRadio" checked="checked">
+															<div class="icon">
+																<i class="fa fa-video-camera" style="margin-left: 1px;"></i>
+															</div>
+															<h6>Videoconferência</h6>
+														</div>
+													</div>
+												 
+												
+												<div class="col-sm-2" style="display: inline-table;">
+													<div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title="Para realizar uma renovação online">
+														<input type="radio" onchange="onChangeVideoConferencia(this)" name="validacaoRenovacaoOnlineRadio">
+														<div class="icon">
+															<i class="fa fa-laptop" style="margin-left: 1px;"></i>
+														</div>
+														<h6>Renovação / Emissão online</h6>
+													</div>
+												</div>
+											</div>
+											<br>
+											<div class="col-sm-12">
+												<div id="alertaRenovacaoOnline" style="text-align: center; display: none;">
+													<h4><b>Para renovação / emissão online é necessário possuir um certificado válido do tipo A3.</b></h4>		                                        			                                        																										
+												</div>
+												<div id="alertaVideoconferencia" style="text-align: center;">
+													Emissão realizada 100% online por videoconferência, através da Central de Emissões Online da Nosso Certificado.		                                        			                                        																										
+												</div>
+												<div id="alertaPresencial" style="text-align: center; display: none;">
+																																																																
+												</div>
+												<div id="divVerificaVideoConferencia" style="text-align: center;">
+													
+																												
+															<br>
+															
+														
+														
+														
+													
+												</div>			   
+											</div>                         	
+											<div class="col-sm-12">
+												<div>
+													<br>
+													<h4 id="podeSerAtendidoVideoConferencia" style="display: none;" class="info-text text-success">Você pode ser atendido por videoconferência!</h4>
+													<h4 id="naoPodeSerAtendidoVideoConferencia" style="display: none;" class="info-text text-danger">Infelizmente você não possui biometria cadastrada mas podemos tentar a videoconferência caso possua uma CNH (Carteira nacional de habilitação) emitida com coleta de sua biometria.</h4>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>		                        
+							
+								<div class="tab-pane" id="cadastro">
+									<div class="container-fluid">
+										<div class="row">
+											<input type="hidden" name="ACAO" value="solicitarCertificado">
+											<input type="hidden" name="tipoPessoa" value="JURIDICA">
+											<input type="hidden" name="validacaoVideoConferencia" value="true">			                            		
+											<input type="hidden" id="renovacaoEmissaoOnline" name="renovacaoEmissaoOnline" value="false">
+											
+											<div class="col-sm-12">
+												<div class="col-sm-4" style="display: inline-table;"></div>
+												<div class="col-sm-2" style="display: inline-table;">
+													<div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title="Para solicitar o certificado de uma pessoa física.">
+														<input type="radio" onchange="onChangeTipoPessoa(this)" name="tipoPessoaRadio" value="FISICA">
+														<div class="icon">
+															<i class="fa fa-user-o"></i>
+														</div>
+														<h6>Pessoa física</h6>
+													</div>
+												</div>
+												
+												<div class="col-sm-2" style="display: inline-table;">
+													<div class="choice active" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title="Para solicitar o certificado de uma empresa. Preencha exatamente como consta no seu cartão CNPJ">
+														<input type="radio" onchange="onChangeTipoPessoa(this)" name="tipoPessoaRadio" value="JURIDICA" checked="checked">
+														<div class="icon">
+															<i class="fa fa-building" style="margin-left: 1px;"></i>
+														</div>
+														<h6>Pessoa jurídica</h6>
+													</div>
+												</div>
+												<div class="col-sm-4" style="display: inline-table;"></div>
+											</div>
+											
+											<div class="col-sm-3" style="display: inline-flex;">
+												<div id="div-cpf" class="input-group" style="display: none;">
+													<span class="input-group-addon"><i class="fa fa-id-card-o"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">CPF</label>
+														  <input name="cpf" type="text" class="form-control">
+													<span class="material-input"></span></div>
+												</div>
+												<div id="div-cnpj" class="input-group">
+													<span class="input-group-addon"><i class="fa fa-id-card-o"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">CNPJ</label>
+														  <input name="cnpj" type="text" class="form-control">
+													<span class="material-input"></span></div>
+												</div>
+											</div>	
+											
+											<div class="col-sm-7" style="display: inline-flex;">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-address-book-o"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label id="labelNome" class="control-label">Nome completo</label>
+														  <input name="nome" type="text" class="form-control" style="width: 250px;" maxlength="200">
+													<span class="material-input"></span></div>
+												</div>													
+											</div>	
+											
+											<div class="col-sm-3" style="display: inline-flex">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">E-mail</label>
+														  <input name="email" type="text" class="form-control" maxlength="100">
+													<span class="material-input"></span></div>
+												</div>
+											</div>
+											
+											<div class="col-sm-4" style="display: inline-flex">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">Telefone fixo</label>
+														  <input name="telefone" type="text" class="form-control">
+													<span class="material-input"></span></div>
+												</div>
+											</div>
+											
+											<div class="col-sm-4" style="display: inline-flex">													
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-mobile"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">Celular</label>
+														  <input name="celular" type="text" class="form-control">
+													<span class="material-input"></span></div>
+												</div>																										
+											</div>
+																							
+											<div class="col-sm-3" style="display: inline-flex;">
+												<div class="input-group" id="divCpfResponsavel" style="display: none;">
+													<span class="input-group-addon"><i class="fa fa-id-card-o"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">CPF do responsável</label>
+														  <input name="cpfResponsavel" type="text" class="form-control">
+													<span class="material-input"></span></div>
+												</div>													
+											</div>														
+											
+											<div class="col-sm-4" style="display: inline-flex;">
+												<div class="input-group" id="divNomeResponsavel" style="display: none;">
+													<span class="input-group-addon"><i class="fa fa-user"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">Nome do responsável</label>
+														  <input name="nomeResponsavel" type="text" class="form-control" style="width: 250px;" maxlength="200">
+													<span class="material-input"></span></div>
+												</div>													
+											</div>
+											
+											<div class="col-sm-4" style="display: inline-flex;">
+												<div class="input-group" id="divDataNascimentoResponsavel" style="display: none;">
+													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">Data Nascimento do responsável</label>
+														  <input name="dataNascimentoResponsavel" type="text" class="form-control" style="width: 250px;" maxlength="200">
+													<span class="material-input"></span></div>
+												</div>
+											</div>	
+											
+												
+											
+											<div class="col-sm-3" style="display: inline-flex">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">CEP</label>
+														  <input name="cep" onchange="ajaxConsultaCep(this)" type="text" class="form-control">
+														  <i id="cep-aguarde" class="glyphicon glyphicon-refresh glyphicon-spin" style="display: none;"></i>
+													<span class="material-input"></span></div>
+												</div>	
+											</div>			                                	
+											
+											<div class="col-sm-4" style="display: inline-flex">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">Logradouro</label>
+														  <input name="logradouro" type="text" class="form-control" style="width: 250px;" maxlength="100">
+													<span class="material-input"></span></div>
+												</div>	
+											</div>
+											
+											<div class="col-sm-3" style="display: inline-flex">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">Número</label>
+														  <input name="numero" type="text" class="form-control" maxlength="5">
+													<span class="material-input"></span></div>
+												</div>
+											</div>	
+												
+											<div class="col-sm-3" style="display: inline-flex">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">Complemento</label>
+														  <input name="complemento" type="text" class="form-control" maxlength="50">
+													<span class="material-input"></span></div>
+												</div>
+											</div>	
+											
+											<div class="col-sm-4" style="display: inline-flex">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">Bairro</label>
+														  <input name="bairro" type="text" class="form-control" style="width: 250px;" maxlength="50">
+													<span class="material-input"></span></div>
+												</div>													
+											</div>
+											
+											<div class="col-sm-3" style="display: inline-flex">	
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>	
+													<div class="form-group label-floating">
+														<label class="control-label">UF</label>
+														<select name="uf" onchange="" class="form-control">
+															<option value="<null>"></option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=12]">AC</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=27]">AL</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=13]">AM</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=16]">AP</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=29]">BA</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=23]">CE</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=53]">DF</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=32]">ES</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=52]">GO</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=21]">MA</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=31]">MG</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=50]">MS</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=51]">MT</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=15]">PA</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=25]">PB</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=26]">PE</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=22]">PI</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=41]">PR</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=33]">RJ</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=24]">RN</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=11]">RO</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=14]">RR</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=43]">RS</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=42]">SC</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=28]">SE</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=35]">SP</option>
+															<option value="br.com.gestaofacil.faturamento.beans.Uf[id=17]">TO</option>
+														</select>		                                        	
+													<span class="material-input"></span></div>
+												</div>
+											</div>
+											
+											<div class="col-sm-3" style="display: inline-flex">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">Município</label>
+														  <input name="municipio" type="text" class="form-control">
+													<span class="material-input"></span></div>
+												</div>				                                    		
+											</div>
+											
+											<div class="col-sm-3" style="display: inline-flex">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+													<div class="form-group label-floating is-empty">
+														<label class="control-label">Data de nascimento</label>
+														<input name="dataNascimento" type="text" class="form-control">
+													<span class="material-input"></span></div>
+												</div>	
+											</div>
+											
+											<div id="div-indicacao" class="col-sm-12" style="display: inline-flex; text-align:center;">
+												<div class="col-sm-3"></div>
+												<div class="col-sm-6">
+													<h4>Houve alguma indicação?</h4><h6>Se houver, por favor, digite abaixo o CNPJ ou CPF de quem lhe indicou</h6> 
+													<div class="input-group" style="margin-left: auto; margin-right: auto;">
+														 <div class="form-group label-floating is-empty">
+															  <label class="control-label">CNPJ ou CPF</label>
+														  <input id="indicacao" name="indicacao" type="text" class="form-control" maxlength="18">
+														<span class="material-input"></span></div>
+													</div>	
+												</div>
+												<div class="col-sm-3"></div>			                                    		
+											</div>			                                    
+																					
+										</div> <!--Row-->
+									</div> <!--Container fluid-->
+								</div> <!--Tab Pane-->
+								
+								<div class="tab-pane" id="certificado">
+									<input id="certificado-input" name="certificado" type="hidden">
+									<div id="row-nenhumcertificado" class="row" style="display: none;"></div>
+									<div id="row-tipocertificado" class="row">
+										<h4 class="info-text">Qual o tipo de certificado?</h4>
+										<div id="div-tipocertificado" class="col-sm-12" style="text-align: center;" onchange="exibeTermoVideoConferencia()"><div class="col-sm-1" style="display: inline-table;"><div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title=""><input type="radio" onchange="carregaProduto()" name="tipoCertificado" value="e-CPF"><div class="icon"><i class="fa fa-id-card-o"></i></div><h6>e-CPF</h6></div></div><div class="col-sm-1" style="display: inline-table;"><div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title=""><input type="radio" onchange="carregaProduto()" name="tipoCertificado" value="e-CNPJ"><div class="icon"><i class="fa fa-id-card-o"></i></div><h6>e-CNPJ</h6></div></div></div>   	                             	
+									</div>
+									<div id="row-tipomidia" class="row">
+										<h4 class="info-text">Qual o tipo de mídia?</h4>
+										<div id="div-tipomidia" class="col-sm-12" style="text-align: center;"><div class="col-sm-1" style="display: inline-table;"><div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title="Para quem já possui token ou cartão (A3) ou deseja um certificado digital A1."><input type="radio" onchange="carregaProduto()" name="tipoMidia" value="Sem mídia"><div class="icon"><i class="fa fa-certificate"></i></div><h6>Sem mídia</h6></div></div><div class="col-sm-1" style="display: inline-table;"><div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title="Para quem deseja adquirir um cartão e já possui uma leitora."><input type="radio" onchange="carregaProduto()" name="tipoMidia" value="Cartão sem leitora"><div class="icon"><i class="fa fa-credit-card"></i></div><h6>Cartão sem leitora</h6></div></div><div class="col-sm-1" style="display: inline-table;"><div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title="Para quem deseja adquirir um cartão e também uma leitora."><input type="radio" onchange="carregaProduto()" name="tipoMidia" value="Cartão + leitora"><div class="icon"><i class="fa fa-window-restore"></i></div><h6>Cartão + leitora</h6></div></div><div class="col-sm-1" style="display: inline-table;"><div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title="Para quem deseja adquirir um dispositivo token."><input type="radio" onchange="carregaProduto()" name="tipoMidia" value="Token"><div class="icon"><i class="fa fa-usb"></i></div><h6>Token</h6></div></div></div>   	                             	
+									</div>
+									<div id="row-validade" class="row">
+										<h4 class="info-text">Qual a validade?</h4>
+										<div id="div-validade" class="col-sm-12" style="text-align: center;"><div class="col-sm-1" style="display: inline-table;"><div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title=""><input type="radio" onchange="carregaProduto()" name="validade" value="1 ano"><div class="icon"><i class="fa fa-calendar"></i></div><h6>1 ano</h6></div></div><div class="col-sm-1" style="display: inline-table;"><div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title=""><input type="radio" onchange="carregaProduto()" name="validade" value="2 anos"><div class="icon"><i class="fa fa-calendar"></i></div><h6>2 anos</h6></div></div><div class="col-sm-1" style="display: inline-table;"><div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title=""><input type="radio" onchange="carregaProduto()" name="validade" value="3 anos"><div class="icon"><i class="fa fa-calendar"></i></div><h6>3 anos</h6></div></div></div>   	                             	
+									</div>
+									<div id="row-certificado" class="row" style="display: none;">
+										<h4 class="info-text">Escolha abaixo o certificado que deseja comprar:</h4>
+										<div id="div-certificado" class="col-sm-12" style="text-align: center;"></div>   	                             	
+									</div>
+									
+							   </div>
+
+								<div class="tab-pane" id="pagamento">
+									<input id="pagamento-input" name="pagamento" type="hidden">
+									<input id="voucherValor" name="voucherValor" type="hidden">
+									<input id="voucherPercentual" name="voucherPercentual" type="hidden">
+									<input id="taxasFormaPagamento" name="taxasFormaPagamento" type="hidden">
+									 <div id="div-inf-pagamento" class="col-sm-12"></div><br>
+									 
+									 
+										 <div id="row-voucher" class="row" style="text-align: center;">
+											 <h4 class="info-text">Possui código de voucher?</h4>
+											<div class="col-sm-6" style="display: inline-flex; text-align:center;">
+												<div class="input-group" style="width: 100%;">
+													<div class="form-group label-floating is-empty">
+														  <label class="control-label">Código do voucher</label>
+														  <input id="codigoVoucherID" maxlength="20" size="50" autocomplete="off" name="codigoVoucher" type="text" class="form-control codigoVoucher">
+														  <span></span>
+													<span class="material-input"></span></div>
+												</div>
+											</div>
+										</div><br>
+													
+																 
+									<div id="div-inf-voucher" class="col-sm-12"></div><br>                        	
+									<div id="row-pagamento" class="row">
+										<h4 class="info-text">Escolha a forma de pagamento:</h4>
+										<div id="div-pagamento" class="col-sm-12" style="text-align: center;"><div class="col-sm-2" style="display: inline-table;"><div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title=""><input type="radio" onchange="onChangePagamento(0, this, false,'')" name="formaPagamento" value="6"><div class="icon"><i class="fa fa-barcode"></i></div><h6>Boleto bancário</h6></div></div><div class="col-sm-2" style="display: inline-table;"><div class="choice" data-toggle="wizard-radio" rel="tooltip" title="" data-original-title=""><input type="radio" onchange="onChangePagamento(1, this, false,'')" name="formaPagamento" value="3"><div class="icon"><i class="fa fa-credit-card"></i></div><h6>CARTAO 1X PAGARME</h6></div></div></div>
+									</div>
+									<div id="row-cartao" class="row" style="display: none; text-align: center;">
+										<div class="col-sm-6" style="display: inline-flex; text-align:center;">
+											<div class="input-group">
+												<div class="form-group label-floating is-empty">
+													  <label class="control-label">Número do cartão</label>
+													  <input id="cardNumber" maxlength="20" size="30" autocomplete="off" name="numeroCartao" type="text" class="form-control" onchange="selecionaBandeira()" onkeydown="return mascara_integer(this,event,false)" onkeypress="if(valida_tecla_integer(this, event, true,true)) {;return true;} else {return false;}">
+												<span class="material-input"></span></div>
+											</div>
+										</div>
+										<div class="col-sm-6" style="display: inline-flex; text-align:center;">
+											<div class="input-group">
+												<div class="form-group label-floating is-empty">
+													  <label class="control-label">Nome do titular (Impresso no cartão)</label>
+													  <input id="owner" maxlength="50" size="50" autocomplete="off" name="titular" type="text" class="form-control">
+												<span class="material-input"></span></div>
+											</div>
+										</div>	
+										<div class="col-sm-6" style="display: inline-flex; text-align:center;">
+											<div class="input-group">
+												<div class="form-group label-floating is-empty">
+													  <label class="control-label">Validade (mês/ano)</label>
+													  <input id="expiration-date" maxlength="7" size="20" autocomplete="off" name="expiracao" type="text" class="form-control">
+												<span class="material-input"></span></div>
+											</div>
+										</div>
+										<div class="col-sm-6" style="display: inline-flex; text-align:center;">
+											<div class="input-group">
+												<div class="form-group label-floating is-empty">
+													  <label class="control-label">CVV</label>
+													  <input id="cvv" maxlength="4" size="10" autocomplete="off" name="codigo" type="text" class="form-control" onkeydown="return mascara_integer(this,event,false)" onkeypress="if(valida_tecla_integer(this, event, true,true)) {;return true;} else {return false;}">
+												<span class="material-input"></span></div>
+											</div>
+										</div>	
+										<div class="col-sm-6" style="display: none; text-align:center;">
+											<div class="input-group">
+												<div class="form-group label-floating">
+													<label class="control-label">Bandeira</label>
+													<select name="bandeira" id="credit_cards">
+														<option value="<null>"></option>
+														<option value="VISA">Visa</option>
+														<option value="MASTERCARD">Mastercard</option>
+														<option value="ELO">ELO</option>
+														<option value="AMEX">AMEX</option>
+														<option value="DINERS">DINERS</option>
+													</select>	                                        	
+												 </div>  
+											</div>
+										</div>	
+										<div class="col-sm-6" style="display: inline-flex; text-align:center; margin: 20px;">
+											<img alt="Cartões aceitos" src="../images/cartoes.png" width="200px;" height="40px;">
+										</div>																																															
+									</div>
+								</div>
+								<input id="identificador" name="identificador" type="hidden" value="">
+								<div class="tab-pane" id="confirmacao" style="text-align: center;">
+									<div id="row-confirmacao" class="row">
+										<h4 class="info-text">Por favor, confirme se informações abaixo estão corretas e clique em 'Confirmar'</h4>
+										<br>
+										<div id="div-confirmacao" class="col-sm-12"></div>		                                    								                                   
+									</div>
+									<br><br>
+									<div class="row">
+										<h4 class="info-text">Informações complementares, caso queira deixar alguma observação preencha o campo abaixo</h4>
+										<br>
+										<textarea id="observacao" name="observacao" rows="7" style="width: 600px;"></textarea>
+										<br><br>
+											
+										
+																					
+										<h4 class="info-text">Clicando em 'Confirmar' você aceita e concorda com nossa política de <a style="cursor: pointer; font-size: 1em;" data-toggle="modal" data-target="#modalTermosCondicoes">termos e condições</a> de uso.</h4>
+									</div>
+								</div>		                            
+							</div>
+							<div class="wizard-footer">
+								<div class="pull-right">
+									<input type="button" class="btn btn-next btn-fill btn-color btn-wd" name="next" value="Próximo">
+									<div><div class="grecaptcha-badge" data-style="bottomright" style="width: 256px; height: 60px; display: block; transition: right 0.3s ease 0s; position: fixed; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;"><div class="grecaptcha-logo"><iframe title="reCAPTCHA" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6Lfwb8AUAAAAALMSTakUT9Vbqz8Evpnj6HL6tOd_&amp;co=aHR0cHM6Ly9ub3Nzb2NlcnRpZmljYWRvLmdmc2lzLmNvbS5icjo0NDM.&amp;hl=pt-BR&amp;v=pCoGBhjs9s8EhFOHJFe8cqis&amp;size=invisible&amp;cb=o2jdxs4zrpto" width="256" height="60" role="presentation" name="a-nd9om0rn4k3o" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div><div class="grecaptcha-error"></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div><button id="finish-button" type="button" class="btn btn-finish btn-fill btn-color btn-wd g-recaptcha" name="finish" data-sitekey="6Lfwb8AUAAAAALMSTakUT9Vbqz8Evpnj6HL6tOd_" data-callback="onDataCallback" data-expired-callback="onDataExpiredCallback" data-error-callback="onDataErrorCallback" style="display: none;"><i class="fa fa-check"></i>  Confirmar</button>
+								</div>
+								<div class="pull-left">
+									<input type="button" class="btn btn-previous btn-fill btn-default btn-wd disabled" name="previous" value="Anterior">
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</form>
+					
+						<div class="container-fluid" id="naoPermiteVideoConferencia" style="display:none;">
+							<h4>Tipo de operação não permitida para esse parceiro, favor entrar em contato pelo número: 61 3550-1746</h4>
+						</div>
+					</div>
+				</div> <!-- wizard container -->
+			</div>		        
+		</div> <!-- row -->
+	</div> <!--  big container -->
+
+	<div class="footer">
+		<div class="container text-center">
+			<div style="text-align: center; display: inline-flex; margin-bottom: 20px;">
+				<!--- DO NOT EDIT - GlobalSign SSL Site Seal Code - DO NOT EDIT --->
+				<table width="125" border="0" cellspacing="0" cellpadding="0" title="CLICK TO VERIFY: This site uses a GlobalSign SSL Certificate to secure your personal information."><tbody><tr><td><script src="//ssif1.globalsign.com/SiteSeal/siteSeal/siteSeal/siteSeal.do?p1=nossocertificado.gfsis.com.br&amp;p2=SZ100-40&amp;p3=image&amp;p4=en&amp;p5=V0021&amp;p6=S001&amp;p7=https"></script><span><img name="ss_imgTag" border="0" src="//ssif1.globalsign.com/SiteSeal/siteSeal/siteSeal/siteSealImage.do?p1=nossocertificado.gfsis.com.br&amp;p2=SZ100-40&amp;p3=image&amp;p4=en&amp;p5=V0021&amp;p6=S001&amp;p7=https&amp;deterDn=" alt="" oncontextmenu="return false;" galleryimg="no" style="width:100px"></span><span id="ss_siteSeal_fin_SZ100-40_image_en_V0021_S001"></span><script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_100-40_en_black.js"></script></td></tr></tbody></table>
+				<!--- DO NOT EDIT - GlobalSign SSL Site Seal Code - DO NOT EDIT --->
+			</div>				
+		</div>		    
+		<div class="container text-center">
+			 <label class="rodape">NOSSO STORE CNPJ: 05.405.987/0001-48 - R 12 NORTE, LOTE, 2 - SALA 701 - CEP: 71909-540 - Brasília - DF - Telefone: 61 3550-1746</label>
+		</div>
+		<div class="container text-center" style="color: #625d5d; font-weight: 300;">
+			
+																								
+				
+					<a class="rodape" style="cursor: pointer; color: #625d5d; font-weight: 300;" data-toggle="modal" data-target="#modalTermosCondicoes">Termos e condições</a> |
+				
+				
+			
+			
+				
+				
+					<a class="rodape" style="cursor: pointer; color: #625d5d; font-weight: 300;" data-toggle="modal" data-target="#modalPoliticaPrivacidade">Política de privacidade</a> |
+				
+				
+			
+				
+			
+				
+					<a class="rodape" style="cursor: pointer; color: #625d5d; font-weight: 300;" data-toggle="modal" data-target="#modalPoliticaGarantia">Política de garantia</a>
+				
+				
+								
+		</div>
+		<div class="container text-center">
+			 <label class="rodape">® 2023 NOSSO STORE - Todos os direitos reservados.</label>
+		</div>	        
+	</div>
+	
+	<!-- Termos e condições -->
+	<div class="modal fade" id="modalTermosCondicoes" tabindex="-1" role="dialog" aria-labelledby="modalTermosCondicoes" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="modalTermosCondicoes">Termos e condições</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">×</span>
+			</button>
+		  </div>
+		  <div class="modal-body" style="text-align: justify; margin-right: 10px;">
+			<p><span><span>A NOSSO STORE agradece sua preferência pelos nossos produtos e/ou serviços.</span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><span>Nossa Política de </span></span></span><span><span><span>Termos e Condições de Uso</span></span></span><span><span><span> visa transparecer e comunicar todos os seus direitos com relação aos produtos por nós comercializados.</span></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><b>1. EMISSÃO DO CERTIFICADO DIGITAL</b></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><span>A NOSSO STORE concede, de forma improrrogável, aos seus clientes o prazo de 01 (um) ano a partir da data do efetivo pagamento para a realização da validação do Certificado Digital presencialmente em uma de suas unidades, bem como a retirada de mídias. Vencido este prazo, o consumidor deverá efetuar novo pagamento, não havendo condições para devolução dos valores pagos.</span></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><span><b>1.1 Segurança de Dados</b></span></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><span>A responsabilidade pelo armazenamento seguro das senhas PIN/PUK, SENHA DE USUÁRIO e SENHA DE ADMINISTRADOR é inteiramente restrita ao titular do Certificado Digital, conforme consta o DOC ICP 03 do Instituto Nacional de Tecnologia da Informação (ITI) disponível em www.iti.gov.br, sendo certo que as senhas foram geradas no momento da validação presencial do Certificado Digital estando ciente o titular do certificado digital desta obrigação.</span></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><b>2. SENHAS</b></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><span>A NOSSO STORE não poderá armazenar e nem mesmo deter as senhas pessoais e de uso de seus clientes, não havendo nenhuma possibilidade de recuperação caso tenham sido esquecidas, perdidas e/ou alteradas. Nos equipamentos criptográficos de armazenamento do Certificado Digital comercializados pela NOSSO STORE, as tentativas de acerto das senhas são cumulativas, o que significa que, após efetivar as tentativas, mesmo que o cliente venha a desconectar o equipamento de seu computador as tentativas permanecerão não sendo reinicializadas.</span></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><b>3. MÍDIAS CRIPTOGRÁFICAS - SMARTCARD/TOKEN</b></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><span>Sempre que o Certificado Digital for solicitado em qualquer transação, a senha de usuário será solicitada.</span></span></span></p>
+			<p><span><span><span>Todas as mídias criptográficas comercializadas pela NOSSO STORE contém um padrão na escolha das senhas, além da quantidade mínima e tipos de caracteres, além de limite de tentativas de acerto.</span></span></span></p>
+			<p><span><span><span>A utilização incorreta ou a não observação destas regras gerais pode ocasionar perda e bloqueio permanente do Certificado Digital adquirido, bem como da mídia criptográfica.</span></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><b>4. USO DO CERTIFICADO DIGITAL</b></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><span>Conforme consta no Termo de Titularidade de emissão de Certificado Digital, este é de uso pessoal e intransferível, não devendo ser manuseado por outrem. Sua utilização acarreta em assinatura com validade jurídica e por este motivo não se deve confiá-lo a terceiros, nem mesmo fornecer sua senha de uso.</span></span></span></p>
+			<p><span><span><span>Memorize suas senhas, e caso seja necessário, armazene-as em locais distintos e longe de possíveis ameaças.</span></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><b>5. GARANTIA E PRAZOS</b></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><span>A NOSSO STORE reserva a seus clientes a garantia de suas mídias criptográficas sob defeitos de fabricação ou vícios de problemas em conformidade com o Código de Defesa do Consumidor, considerando que não tenham sido condicionados a eventos danosos como quedas, altas temperaturas, umidade excessiva, etc.</span></span></span></p>
+			<p><span><span><span>Para mídias criptográficas, considerar-se-á de acordo com o enunciado anterior, dentro dos termos da garantia o prazo de 365 dias a contar da data da entrega do equipamento ao cliente, devidamente comprovado pela apresentação da Nota Fiscal.</span></span></span></p>
+			<p><span><span><span>De acordo com o CDC (Código de Defesa do Consumidor) em seu artigo 26º II, o consumidor tem o direito de apresentar reclamação formal acerca dos produtos e/ou serviços prestados pela NOSSO STORE em que se constatem vícios no prazo de 90 (noventa) dias a contar da data da prestação do serviço e/ou entrega do produto.</span></span></span></p>
+			<p><span><span><span>A NOSSO STORE oferece a seus clientes consumidores um prazo ainda maior para detecção e apresentação de reclamação formal aos produtos ofertados por esta, cobrindo os produtos com 365 (trezentos e sessenta e cinco) dias de garantia contados da data da entrega ao cliente.</span></span></span></p>
+			<p><span><span><span>Não excedendo o prazo descrito de garantia supracitada, o consumidor poderá apresentar reclamação formal acerca do mau funcionamento dos produtos e serviços prestados, os quais serão submetidos a análises técnicas para determinação de defeitos e/ou vícios de fabricação.</span></span></span></p>
+			<p><span><span><span>Em casos positivos que requeiram substituição pela constatação de defeitos e/ou vícios de fabricação, a NOSSO STORE: Substituirá imediatamente ao seu consumidor, o produto/serviço ofertado, sem ônus adicional;</span></span></span></p>
+			<p><span><span><span>Procederá com nova solicitação de Certificado Digital ao titular cujo produto/serviço tenha apresentado defeito de fabricação na emissão.</span></span></span></p>
+			<p><span><span><span>As compatibilidades e/ou atualizações de sistemas, navegadores de internet, etc., que se utilizam do serviço de Certificação Digital não podem ser consideradas como defeito para os fins de análise dos produtos/serviço comercializados pela NOSSO STORE.</span></span></span></p>
+			<p><span><span><span>Verifique as compatibilidades no site da NOSSO STORE através do endereço https://nossocertificado.com.br/.</span></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><b>7. O QUE A GARANTIA NÃO COBRE?</b></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><span>I. Uso indevido ou equívoco da senha do usuário e do Administrador (PIN/PUK), ocasionando bloqueio ou esquecimento das mesmas;</span></span></span></p>
+			<p><span><span><span>II. A NOSSO STORE não é responsável por repor a mídia ou o Certificado Digital que estiver armazenado e que venha a ser bloqueado pelo usuário;</span></span></span></p>
+			<p><span><span><span>III. Produtos e/ou serviços não adquiridos na NOSSO STORE, tais como Certificados Digitais e mídias criptográficas;</span></span></span></p>
+			<p><span><span><span>IV. Certificados Digitais armazenados em mídias não adquiridas na NOSSO STORE;</span></span></span></p>
+			<p><span><span><span>V. Inobservância dos deveres, obrigações legais e contratuais da parte do cliente;</span></span></span></p>
+			<p><span><span><span>VI. Mídias e produtos danificados por motivos de força maior, uso indevido, mau uso, negligência, acidente, desgaste, manipulação indevida, aplicação errada ou outras causas não relacionadas aos defeitos de fabricação;</span></span></span></p>
+			<p><span><span><span>VII. Produtos que tenham sido objeto de reparos, modificações ou suporte técnico de pessoal não autorizado pela NOSSO STORE;</span></span></span></p>
+			<p><span><span><span>VIII. Mal funcionamento ou falhas dos produtos comercializados pela NOSSO STORE decorrentes de interrupção abrupta ou insuficiência de energia elétrica, bem como, altas-tensões aplicadas e existência de objetos estranhos em seus interiores;</span></span></span></p>
+			<p><span><span><span>IX. Perda e/ou extravio do Certificado Digital A1 em decorrência de exclusão acidental, proposital, formatação, danos físicos e digitais;</span></span></span></p>
+			<p><span><span><span>X. A NOSSO STORE não se responsabiliza por inatividade, indisponibilidade ou impossibilidade de uso de sistemas ou softwares que utilizem os seus produtos e serviços, não sendo atribuir qualquer prejuízo comercial, econômico e lucrativo por danos diretos ou indiretos.</span></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><b>8. DIREITO DE ARREPENDIMENTO</b></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><span>Em concordância com o Art. 49 do CDC, o direito de arrependimento dentro do prazo de reflexão (07 dias), poderá ser exercido pelo cliente, levando em consideração a revogação do próprio Certificado Digital e devolução dos produtos, bem como os itens que o acompanharam no momento da compra (caixa, manual, capas, termo de garantia) intactos e em perfeitas condições de uso.</span></span></span></p>
+			<p><span><span><span>Questões a serem observadas nos casos de cobertura da garantia NOSSO STORE para reembolso ou substituição:</span></span></span></p>
+			<p><span><span><span>Todo ressarcimento feito pela NOSSO STORE ocorrerá em Conta-Corrente do titular Pessoa Física ou Jurídica, quando for o caso, em até 10 dias após a NOSSO STORE receber formalmente a solicitação por parte do cliente, informando os dados bancários que sejam coerentes com os do próprio titular. Em caso negativo, a NOSSO STORE não terá obrigação de ressarcir o valor do produto até que os dados corretos sejam informados pelo cliente.</span></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><span>* </span></span></span><span><span><span><b>O Código de Defesa do Consumidor e legislação vigente foram observados para a elaboração destas regras e condições, havendo conformidade entre todas as partes.</b></span></span></span></p>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+		  </div>
+		</div>
+	  </div>
+	</div>	
+	
+	<!-- Política de privacidade -->
+	<div class="modal fade" id="modalPoliticaPrivacidade" tabindex="-1" role="dialog" aria-labelledby="modalPoliticaPrivacidade" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="modalPoliticaPrivacidade">Política de privacidade</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">×</span>
+			</button>
+		  </div>
+		  <div class="modal-body" style="text-align: justify; margin-right: 10px;">
+			<p><span><span>Nossa Política de Privacidade tem como objetivo manter o compromisso e transparência da NOSSO STORE em garantir a proteção dos dados fornecidos pelo cliente em nosso e-commerce. Não fornecemos informações pessoais para terceiros sem a devida autorização e não divulgamos informações que possam identificar nossos clientes.</span></span></p>
+			<p><span><span>A presente Política abrange o tratamento que a NOSSO STORE concede às informações capazes de identificar os usuários, coletadas diretamente em nosso E-commerce e armazenadas em bases de dados eletrônicos por meio dos cadastros preenchidos.</span></span></p>
+			<p><span><span>Para realizar uma compra no site da NOSSO STORE, o usuário necessitará fornecer informações financeiras que serão automaticamente eliminadas após o término da compra, permanecendo apenas seus dados cadastrais.</span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><b>COLETA E USO DE INFORMAÇÕES</b></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span>As informações solicitadas aos clientes são as necessárias à realização dos serviços prestados pela NOSSO STORE e ficarão armazenadas para fins operacionais e, quando expressamente autorizado, para relacionamento comercial com os mesmos.</span></span></p>
+			<p><span><span>As informações pessoais coletadas no site são armazenadas com padrões rígidos de confidencialidade e segurança e nenhum documento, informação ou registro sob a guarda da NOSSO STORE é fornecido a terceiros, exceto se expressamente autorizado pelo cliente ou mediante ordem judicial ou por determinação legal.</span></span></p>
+			<p><span><span>A simples navegação no site da NOSSO STORE não permite que seja colhida nenhuma informação pessoal do visitante. Atualmente, utilizamos exclusivamente dois métodos para coleta de informações:</span></span></p>
+			<p><span><span>- E-mail: A NOSSO STORE disponibiliza esta ferramenta para que o cliente possa ter a oportunidade de contato para questionamentos ou sugestões, bem como realizar retorno sanando quaisquer dúvidas referentes a nossos produtos e serviços.</span></span></p>
+			<p><span><span>- Formulários: Para a compra de nossos serviços ou produtos, é necessário que o cliente forneça algumas informações. Essas informações são utilizadas exclusivamente para este fim, e somente quando autorizadas podem ser utilizadas para fazer parte da base de dados para ações comerciais.</span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><b>RELACIONAMENTO COM TERCEIROS</b></span></span></p>
+			<p>&nbsp;</p>				
+			<p><span><span>A Política de Privacidade adotada pela NOSSO STORE é pertinente apenas a loja virtual, não sendo aplicável a qualquer outro site que a ele esteja associado ou que, de alguma forma, esteja relacionado por meio de "links" ou de outras formas de divulgação e acesso.</span></span></p>
+			<p><span><span>O e-commerce contém acesso a links para sites externos cujos conteúdos e Políticas de Privacidade não são de responsabilidade da NOSSO STORE. Assim, recomendamos que, ao ser redirecionado para sites externos, os usuários consultem sempre as respectivas Políticas de Privacidade antes de fornecer seus dados ou informações.</span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><b>SEGURANÇA</b></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span>O acesso às informações coletadas é restrito e controlado, inclusive aos funcionários da NOSSO STORE. Aqueles que se utilizarem indevidamente dessas informações, ferindo nossa Política de Privacidade, estarão sujeitos às penalidades previstas em nosso processo disciplinar, bem como às demais medidas legais cabíveis.</span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span><b>CONSIDERAÇÕES GERAIS</b></span></span></p>
+			<p>&nbsp;</p>
+			<p><span><span>A NOSSO STORE se reserva o direito de notificar seus clientes de qualquer informação que afete a segurança dos produtos ou serviços fornecidos.</span></span></p>
+			<p><span><span>Para assegurar a qualidade nas informações e normativos atualizados, a NOSSO STORE está sujeita a alterar essa Política sempre que necessário e a qualquer tempo. Sendo assim, recomendamos sua leitura periodicamente.</span></span></p>
+			<p><span><span>Se você tem qualquer pergunta referente a este documento, fale conosco através da área de Contatos do nosso site: https://nossocertificado.com.br/</span></span></p>
+			<p>&nbsp;</p>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+		  </div>
+		</div>
+	  </div>
+	</div>	
+	
+	<!-- Política de garantia -->
+	<div class="modal fade" id="modalPoliticaGarantia" tabindex="-1" role="dialog" aria-labelledby="modalPoliticaGarantia" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="modalPoliticaGarantia">Política de garantia</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">×</span>
+			</button>
+		  </div>
+		  <div class="modal-body" style="text-align: justify; margin-right: 10px;">
+			<b>GARANTIA E PRAZOS</b><p></p>
+			<p>&nbsp;</p>
+			<p>A NOSSO STORE reserva a seus clientes a garantia de suas mídias criptográficas sob defeitos de fabricação ou vícios de problemas em conformidade com o Código de Defesa do Consumidor, considerando que não tenham sido condicionados a eventos danosos como quedas, altas temperaturas, umidade excessiva, etc.</p>
+			<p><br> Para mídias criptográficas, considerar-se-á de acordo com o enunciado anterior, dentro dos termos da garantia o prazo de 365 dias a contar da data da entrega do equipamento ao cliente, devidamente comprovado pela apresentação da Nota Fiscal.</p>
+			<p><br> De acordo com o CDC (Código de Defesa do Consumidor) em seu artigo 26º II, o consumidor tem o direito de apresentar reclamação formal acerca dos produtos e/ou serviços prestados pela NOSSO STORE em que se constatem vícios no prazo de 90 (noventa) dias a contar da data da prestação do serviço e/ou entrega do produto.</p>
+			<p>&nbsp;</p>
+			<p>A NOSSO STORE oferece a seus clientes consumidores um prazo ainda maior para detecção e apresentação de reclamação formal aos produtos ofertados por esta, cobrindo os produtos com 365 (trezentos e sessenta e cinco) dias de garantia contados da data da entrega ao cliente.</p>
+			<p>&nbsp;</p>
+			<p><b>DEFEITOS</b></p>
+			<p><br> Não excedendo o prazo descrito de garantia supracitada, o consumidor poderá apresentar reclamação formal acerca do mau funcionamento dos produtos e serviços prestados, os quais serão submetidos a análises técnicas para determinação de defeitos e/ou vícios de fabricação.</p>
+			<p><br> Em casos positivos que requeiram substituição pela constatação de defeitos e/ou vícios de fabricação, a NOSSO STORE:</p>
+			<p><br>Substituirá imediatamente ao seu consumidor, o produto/serviço ofertado, sem ônus adicional;</p>
+			<p>Procederá com nova solicitação de Certificado Digital ao titular cujo produto/serviço tenha apresentado defeito de fabricação na emissão.</p>
+			<p><br> As compatibilidades e/ou atualizações de sistemas, navegadores de internet, etc., que se utilizam do serviço de Certificação Digital não podem ser consideradas como defeito para os fins de análise dos produtos/serviços comercializados pela NOSSO STORE.</p>
+			<p><br> Verifique as compatibilidades no site da NOSSO STORE através do endereço https://nossocertificado.com.br/.</p>
+			<p>&nbsp;</p>
+			<p><b>O QUE A GARANTIA NÃO COBRE?</b></p>
+			<p><br> I. Uso indevido ou equívoco da senha do usuário e do Administrador (PIN/PUK), ocasionando bloqueio ou esquecimento das mesmas;</p>
+			<p>II. A NOSSO STORE não é responsável por repor a mídia ou o Certificado Digital que estiver armazenado e que venha a ser bloqueado pelo usuário;</p>
+			<p>III. Produtos e/ou serviços não adquiridos na NOSSO STORE, tais como Certificados Digitais e mídias criptográficas;</p>
+			<p>IV. Certificados Digitais armazenados em mídias não adquiridas na NOSSO STORE;</p>
+			<p>V. Inobservância dos deveres, obrigações legais e contratuais da parte do cliente;</p>
+			<p>VI. Mídias e produtos danificados por motivos de força maior, uso indevido, mau uso, negligência, acidente, desgaste, manipulação indevida, aplicação errada ou outras causas não relacionadas aos defeitos de fabricação;</p>
+			<p>VII. Produtos que tenham sido objeto de reparos, modificações ou suporte técnico de pessoal não autorizado pela NOSSO STORE;</p>
+			<p>VIII. Mal funcionamento ou falhas dos produtos comercializados pela NOSSO STORE decorrentes de interrupção abrupta ou insuficiência de energia elétrica, bem como, altas-tensões aplicadas e existência de objetos estranhos em seus interiores;</p>
+			<p>IX. Perda e/ou extravio do Certificado Digital A1 em decorrência de exclusão acidental, proposital, formatação, danos físicos e digitais;</p>
+			<p>X. A NOSSO STORE não se responsabiliza por inatividade, indisponibilidade ou impossibilidade de uso de sistemas ou softwares que utilizem os seus produtos e serviços, não sendo atribuir qualquer prejuízo comercial, econômico e lucrativo por danos diretos ou indiretos.</p>
+			<p>&nbsp;</p>
+			<p><b>DIREITO DE ARREPENDIMENTO</b></p>
+			<p>&nbsp;</p>
+			<p>Em concordância com o Art. 49 do CDC, o direito de arrependimento dentro do prazo de reflexão (07 dias), poderá ser exercido pelo cliente, levando em consideração a revogação do próprio Certificado Digital e devolução dos produtos, bem como os itens que o acompanharam no momento da compra (caixa, manual, capas, termo de garantia) intactos e em perfeitas condições de uso.</p>
+			<p><br> Questões a serem observadas nos casos de cobertura da garantia NOSSO STORE para reembolso ou substituição:</p>
+			<p>Todo ressarcimento feito pela NOSSO STORE ocorrerá em Conta-Corrente do titular Pessoa Física ou Jurídica, quando for o caso, em até 10 dias após a NOSSO STORE receber formalmente a solicitação por parte do cliente, informando os dados bancários que sejam coerentes com os do próprio titular. Em caso negativo, a NOSSO STORE não terá obrigação de ressarcir o valor do produto até que os dados corretos sejam informados pelo cliente.</p>
+			<p>&nbsp;</p>
+			<p><b>* O Código de Defesa do Consumidor e legislação vigente foram observados para a elaboração destas regras e condições, havendo conformidade entre todas as partes.</b>
+		  </p></div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+	<!-- Modal Termos de uso da video conferencia -->
+	<div class="modal fade" id="modalLabelTermosVideoConferencia" tabindex="-1" role="dialog" aria-labelledby="modalLabelTermosVideoConferenciaLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+					<h4 class="modal-title text-center" id="modalLabelTermosVideoConferenciaLabel">Termo de uso video conferência</h4>
+				</div>
+				<div class="modal-body" id="modalTextoTermosVideoConferenciaPF">
+					
+				</div>
+				<div class="modal-body" id="modalTextoTermosVideoConferenciaPJ">
+					
+				</div>
+				<div class="modal-body">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="" id="checkTermosVideoConferencia" onchange="$('#modalLabelTermosVideoConferencia').modal('hide')">
+						<label class="form-check-label" for="flexCheckDefault">
+						  Li e concordo com o texto acima
+						</label>
+					</div>		
+				</div>	  
+			</div>
+		</div>
+	</div>				    
+
+
+
+
+<script type="text/javascript">
+
+var typingTimer;                
+var doneTypingInterval = 1000;  
+var $input = $('#codigoVoucherID');
+
+$input.on('keyup', function () {
+	clearTimeout(typingTimer);
+	typingTimer = setTimeout(validaVoucher, doneTypingInterval);
+});
+
+$input.on('keydown', function () {
+	clearTimeout(typingTimer);
+});
+
+window.onbeforeunload = function() {
+  return "Os dados serão perdidos se recarregar esta página, tem certeza?";
+};
+
+var mapaEndereco = [{"id":742,"uf":"DF","ufSigla":null,"uf_id":null,"cidade":null,"bairro":null,"endereco":"BRASÍLIA - Rua 12, 2 - Norte (Águas Claras)","contato":"(61) 3550-1746 / contato@nossocertificado.com.br","podeRealizarDelivery":false,"urlDirecionamentoSite":"","ac":null,"enderecoCompleto":"BRASÍLIA - Rua 12, 2 - Norte (Águas Claras) - DF - (61) 3550-1746 / contato@nossocertificado.com.br"},{"id":745,"uf":"DF","ufSigla":null,"uf_id":null,"cidade":null,"bairro":null,"endereco":"BRASÍLIA - Rua 12, 2 - Sede da Nosso Certificado","contato":"(61) 3550-1746 / contato@nossocertificado.com.br","podeRealizarDelivery":false,"urlDirecionamentoSite":"","ac":null,"enderecoCompleto":"BRASÍLIA - Rua 12, 2 - Sede da Nosso Certificado - DF - (61) 3550-1746 / contato@nossocertificado.com.br"},{"id":876,"uf":"DF","ufSigla":null,"uf_id":null,"cidade":null,"bairro":null,"endereco":"BRASÍLIA - Bairro,  - Norte (Águas Claras)","contato":"(61) 3550-1746 / centraldeemissao@nossocertificado.com.br","podeRealizarDelivery":false,"urlDirecionamentoSite":"","ac":null,"enderecoCompleto":"BRASÍLIA - Bairro,  - Norte (Águas Claras) - DF - (61) 3550-1746 / centraldeemissao@nossocertificado.com.br"},{"id":563,"uf":"DF","ufSigla":null,"uf_id":null,"cidade":null,"bairro":null,"endereco":"BRASÍLIA - Rua 12, 2 - Norte (Águas Claras)","contato":"(61) 3550-1746 / emissoesabrasel@nossocertificado.com.br","podeRealizarDelivery":false,"urlDirecionamentoSite":"","ac":null,"enderecoCompleto":"BRASÍLIA - Rua 12, 2 - Norte (Águas Claras) - DF - (61) 3550-1746 / emissoesabrasel@nossocertificado.com.br"},{"id":740,"uf":"DF","ufSigla":null,"uf_id":null,"cidade":null,"bairro":null,"endereco":"BRASÍLIA - Rua 12, 2 - Norte (Águas Claras)","contato":"(61) 3550-1746 / ana.santos@nossoservicos.com.br","podeRealizarDelivery":false,"urlDirecionamentoSite":"","ac":null,"enderecoCompleto":"BRASÍLIA - Rua 12, 2 - Norte (Águas Claras) - DF - (61) 3550-1746 / ana.santos@nossoservicos.com.br"},{"id":583,"uf":"DF","ufSigla":null,"uf_id":null,"cidade":null,"bairro":null,"endereco":"BRASÍLIA - Aguas Claras,  - Sede da Nosso Certificado","contato":"(61) 3550-1746 / contato@nossocertificado.com.br","podeRealizarDelivery":false,"urlDirecionamentoSite":"","ac":null,"enderecoCompleto":"BRASÍLIA - Aguas Claras,  - Sede da Nosso Certificado - DF - (61) 3550-1746 / contato@nossocertificado.com.br"},{"id":6,"uf":"DF","ufSigla":null,"uf_id":null,"cidade":null,"bairro":null,"endereco":"BRASÍLIA - Rua 12 Norte, Lote 2, 2 - Sede da Nosso Certificado","contato":"(61) 3550-1746 / contato@nossocertificado.com.br","podeRealizarDelivery":false,"urlDirecionamentoSite":"","ac":null,"enderecoCompleto":"BRASÍLIA - Rua 12 Norte, Lote 2, 2 - Sede da Nosso Certificado - DF - (61) 3550-1746 / contato@nossocertificado.com.br"}];
+var tabelaProduto;
+var ocultarProdutoMidiaVideoConferencia = false;
+var integrarValid = false;
+var integrarSafeweb = false;
+var integrarCertipe = false;
+var validaAo3Tech = false;
+var contabilidadeId = 0 == 0 ? null : 0;
+
+$(document).ready(function(){	
+	
+	$('#modalLabelTermosVideoConferencia').on('hidden.bs.modal', function (e) {
+		document.getElementsByName('next')[0].disabled = !document.getElementById('checkTermosVideoConferencia').checked;
+	})
+				
+	document.getElementById("textoCabecalhoVideoConferencia").style.display = "none";
+	
+	$(form['cep']).mask("99999-999");
+	$(form['cnpj']).mask("99.999.999/9999-99");
+	$(form['cpf']).mask("999.999.999-99");		
+	$(form['cpfResponsavel']).mask("999.999.999-99");
+	if (true){
+		$(form['cpfVideoConferencia']).mask("999.999.999-99");
+		$(form['cnpjVideoConferencia']).mask("99.999.999/9999-99");
+	}
+	$(form['telefone']).mask("(99) 9999-9999");
+	$(form['celular']).mask("(99) 99999-9999");
+	$(form['dataNascimento']).mask("99/99/9999");
+	$(form['dataNascimentoResponsavel']).mask("99/99/9999");
+	$('#expiration-date').mask('99/9999');
+	$('#ufLocalizacao').val('<null>');
+	$('#confirmarLocalizacao').click(function(){
+		if ($('#ufLocalizacao option:selected').text() != '' && $('#pontoAtendimentoLocalizacao option:selected').text() != ''){
+			$("#localidade").modal("hide");
+			if ('' != '') {
+				$('#indicacao').parent().removeClass('is-empty').addClass('is-focused');
+				
+				if ('' != '')
+					$('#indicacao').val('');
+				else
+					$('#indicacao').val('');
+					
+				formataCnpjCpf($('#indicacao'));
+			}
+			buscaContatoPontoAtendimentoSelecionado();
+			ajaxBuscarTabelaProduto();
+							
+			// verifica se não vai exibir a selação de validação
+			if (false && $('input[name=semMunicipio]:checked').val() != 'true'){
+				$("input[name='validacaoPresencialRadio']").parent().click();
+				$("input[name='validacaoVideoConferenciaRadio']").parent().hide();
+				$("input[name='validacaoRenovacaoOnlineRadio']").parent().hide();
+				$('.btn-next').click();												
+			}else if($('input[name=semMunicipio]:checked').val() == 'true'){
+				$("input[name='validacaoPresencialRadio']").parent().hide();
+				$("input[name='validacaoVideoConferenciaRadio']").focus();				
+			}											
+			
+		} else
+			alert('Por favor, selecione o endereço.');
+	});	
+	if ('6' != ''){
+		selecionaPontoAtendimento('6', 'Rua 12 Norte, Lote 2, 2 - Sede da Nosso Certificado - CEP: 71909-540 - Brasília/DF');
+		if ('' != '') {
+			$('#indicacao').parent().removeClass('is-empty').addClass('is-focused');
+			
+			if ('' != '')
+				$('#indicacao').val('');
+			else
+				$('#indicacao').val('');
+				
+			formataCnpjCpf($('#indicacao'));
+		}
+
+		buscaContatoPontoAtendimentoSelecionado();
+		ajaxBuscarTabelaProduto();
+		
+	} else {
+		 $("#localidade").modal({
+			show: true, 
+			keyboard: false,
+			backdrop: 'static'
+			});
+	}		
+	//$('button[name=finish]').click(function(){solicitar(false)});
+	$('#identificador').val('');
+	
+	$('#indicacao').change(function(){
+		ajaxBuscarTabelaProduto();
+		$('#div-certificado').empty();
+		$('#row-certificado').hide();
+	});
+	
+	$('#indicacao').keyup(function(e) {
+		var charCode = e.keyCode || e.which;
+		
+		if ((charCode > 47 && charCode < 58) || (charCode > 95 && charCode < 106)) {
+			formataCnpjCpf($(this));
+		} else if (charCode == 8 || charCode == 46) {
+			if ($(this).val().length > 0)
+				formataCnpjCpf($(this));
+		}
+	});
+	
+	if (false){
+		//$('#indicacao').attr("readonly", "readonly");
+		$('#div-indicacao').hide();
+	}
+	
+	// alimentando informações quando o produto é passado por parametro
+	$("#tipoCertificado").val('');
+	$("#tipoMidia").val('');
+	$("#validade").val('');
+	$("#idProduto").val('');
+	$("#ordemEtapa").val('1');
+	$("#informouProdutoUrl").val('false');
+	
+	$("input[name='tipoPessoaRadio'][value='JURIDICA']").parent().show();
+	$("input[name='tipoPessoaRadio'][value='FISICA']").parent().show();
+	
+	// se o produto é para pf
+	if ($("#tipoCertificado").val() == 'e-CPF' || $("#tipoCertificado").val() == 'Certillion ID PF' || 
+	($("#tipoCertificado").val() == 'Bird ID (Nuvem)' && '' == 'PF')){
+		// escondendo a opção pj
+		escondeCamposPJ();
+	} else if ($("#tipoCertificado").val() == 'e-CNPJ' || $("#tipoCertificado").val() == 'NF-e' || 
+			$("#tipoCertificado").val() == 'CT-e' || $("#tipoCertificado").val() == 'Certillion ID PJ' ||
+			$("#tipoCertificado").val() == 'ME / EPP / MEI' || 
+			($("#tipoCertificado").val() == 'Bird ID (Nuvem)' && '' == 'PJ')){
+		// escondendo a opção pf se foi um produto para pj
+		escondeCamposPF();
+	}
+	
+	if (false){
+		$('#div-indicacao').hide();
+	}
+	
+	if ('' != ''){
+		$('input[name=realizarDelivery][value=sim]').prop('checked', true);
+		$('#taxaDelivery').val('br.com.gestaofacil.faturamento.beans.TaxaDelivery[id=]');
+		//loadDadosInfoPagamento();
+	}
+	
+	verificaProdutoEnviado();
+	
+	if (true){
+		$("input[name='validacaoVideoConferenciaRadio']").parent().click();
+	}
+	
+	if (true){		
+		$("input[name='validacaoRenovacaoOnlineRadio']").parent().click();
+	}
+	
+	// se é videoconferencia e o parceiro não permite videoconferencia
+	if (false){
+		$("#naoPermiteVideoConferencia").show();
+		$('.wizard-navigation').hide();
+		$('.tab-content').hide();
+		$('.wizard-footer').hide();
+		$('#titulo').hide();
+		$('.wizard-header').css({ 'width': '100%', 'display' : ''  });
+	}
+	
+	if (false){
+		$("input[name='validacaoPresencialRadio']").parent().hide();			
+		$("input[name='validacaoVideoConferenciaRadio']").parent().css({'margin-left': '-180px'});
+		$("input[name='validacaoRenovacaoOnlineRadio']").parent().css({'margin-left': '-180px'});
+	}
+	
+	onchangeRealizarDelivery();
+});
+
+function onchangeRealizarDelivery(){
+	if ($("input[name='realizarDelivery']").length <= 0)
+		return;
+	
+	if(produtoComTaxaDeliveryNoCadastro){
+		$('input[name=realizarDelivery][value="sim"]').prop('checked', true);
+		alert("Produto com taxa de delivery informada no cadastro.");
+		return;
+	}
+	
+	// verificando se vai informar valor de delivery
+	if ($("input[name='realizarDelivery']:checked").val() == 'sim'){
+		$("#row-taxaDelivery").show();
+	} else {
+		$('#taxaDelivery').val('<null>');
+		$("#row-taxaDelivery").hide();
+	}
+}	
+
+function formataCnpjCpf(input) {
+	switch (input.val().length) {
+		case 11:
+			input.val(input.val().replace(/([0-9]{3})([0-9]{3})([0-9]{3})([0-9]{2})/g, "$1.$2.$3-$4"));
+			break;
+			
+		case 14:
+		case 18:
+			if (input.val().length >= 18)
+				input.val(input.val().replace(/([0-9]{2})([0-9]{3})([0-9]{3})([0-9]{4})([0-9]{2})/g, "$1.$2.$3/$4-$5").substr(0, 18));
+			else
+				input.val(input.val().replace(/([0-9]{2})([0-9]{3})([0-9]{3})([0-9]{4})([0-9]{2})/g, "$1.$2.$3/$4-$5"));
+			break;
+			
+		default:
+			input.val(input.val().replace(/(\.|\/|\-)/g,""));
+			break;
+	}
+}
+
+function checkSemMunicipio(){ 
+	if ($('input[name=semMunicipio]:checked').val() == 'true'){
+		$('#ufLocalizacao').val('53');
+		$('#ufLocalizacao').change();
+		$('#ufLocalizacao').parent().hide();
+		$('#pontoAtendimentoLocalizacao').val('br.com.gestaofacil.faturamento.beans.PontoAtendimento[id=6]');
+		$('#pontoAtendimentoLocalizacao').parent().hide();
+		$('#enderecoContato').hide();
+		$("input[name='validacaoVideoConferenciaRadio']").parent().click();
+	} else {
+		$('#ufLocalizacao').val('<null>');
+		$('#ufLocalizacao').parent().show();
+		$('#pontoAtendimentoLocalizacao').val('<null>');
+		$('#pontoAtendimentoLocalizacao').parent().show();
+		$('#enderecoContato').show();
+		$("input[name='validacaoPresencialRadio']").parent().click();
+	}
+}
+
+function onChangeVideoConferencia(el){	
+	if ($("#ultimoTipoCertificado").val() != el.name){
+		document.getElementsByName('next')[0].disabled = false;
+		$("#ultimoTipoCertificado").val(el.name);
+		
+		if ($("input[name='validacaoVideoConferenciaRadio'][checked=checked]").val() == "on"){				
+			$("#row-taxaDelivery").hide();
+			$("#row-delivery").hide();
+			validacao = 'Videoconferência';
+			$("#alertaVideoconferencia").show();
+			$("#alertaPresencial").hide();
+			$("#alertaRenovacaoOnline").hide();
+			$("input[name='validacaoVideoConferencia']").val(true);		
+			$("#divVerificaVideoConferencia").show();
+			if (integrarSafeweb || intergarCertipe)
+				$("#selecaoTipoPessaoVideoconferencia").hide();
+				
+			if (document.getElementById("textoCabecalhoVideoConferencia").innerHTML == ""){
+				document.getElementById("textoCabecalhoVideoConferencia").style.display = "none";
+				document.getElementById("textoCabecalho").style.display = "";	
+			}else{
+				document.getElementById("textoCabecalhoVideoConferencia").style.display = "";
+				document.getElementById("textoCabecalho").style.display = "none";	
+			}
+			
+		} else if ($("input[name='validacaoPresencialRadio'][checked=checked]").val() == "on"){														
+			buscaContatoPontoAtendimentoSelecionado();
+			onchangeRealizarDelivery();
+			validacao = 'Presencial';
+			$("#alertaVideoconferencia").hide();
+			$("#alertaPresencial").show();		
+			$("#alertaRenovacaoOnline").hide();
+			$("input[name='validacaoVideoConferencia']").val(false);
+			$("#divVerificaVideoConferencia").hide();			
+			$(".btn-next").removeAttr("disabled");
+			$("#podeSerAtendidoVideoConferencia").hide();
+			$("#naoPodeSerAtendidoVideoConferencia").hide(); 
+			
+			document.getElementById("textoCabecalhoVideoConferencia").style.display = "none";
+			document.getElementById("textoCabecalho").style.display = "";
+													   
+		} else if ($("input[name='validacaoRenovacaoOnlineRadio'][checked=checked]").val() == "on"){				
+			buscaContatoPontoAtendimentoSelecionado();
+			onchangeRealizarDelivery();
+			validacao = 'RenovacaoOnline';
+			$("#alertaVideoconferencia").hide();
+			$("#alertaPresencial").hide();			
+			$("#alertaRenovacaoOnline").show();	    			  
+			$("input[name='validacaoVideoConferencia']").val(false);
+			$("#divVerificaVideoConferencia").hide();  	
+			$(".btn-next").removeAttr("disabled");
+			$("#podeSerAtendidoVideoConferencia").hide();
+			$("#naoPodeSerAtendidoVideoConferencia").hide(); 
+			
+			document.getElementById("textoCabecalhoVideoConferencia").style.display = "none";
+			document.getElementById("textoCabecalho").style.display = "";			
+			
+		}
+					
+		ajaxBuscarTabelaProduto();
+	}
+}
+
+function onChangePessoVideo(){				
+	if (integrarValid){
+		$('#cpfVideoConferencia').val($('#clientecpf').val());
+		$('#cnpjVideoConferencia').hide();
+		$("#labelVideoConferencia").text("Informe o seu CPF:");		
+	} else if (integrarSafeweb || integrarCertipe){
+		$('#selecaoTipoPessaoVideoconferencia').hide();
+		$('#cpfVideoConferencia').val($('#clientecpf').val());
+		$('#cnpjVideoConferencia').hide();
+		$("#labelVideoConferencia").text("Informe o seu CPF:");
+	} else {
+		if ($('#pessoaFisicaVideo').prop("checked") == true) {
+			$('#cnpjVideoConferencia').hide();
+			$('#labelVideoConferencia').text('Informe o seu CPF:');
+		} else if ($('#pessoaFisicaVideo').prop("checked") == false) {
+			$('#cnpjVideoConferencia').show();
+			$('#labelVideoConferencia').text('Informe o seu CPF e CNPJ:');
+		}		
+	} 			
+}
+
+</script><div style="visibility: hidden; position: absolute; width: 100%; top: -10000px; left: 0px; right: 0px; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0;"><div style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.5;"></div><div style="margin: 0px auto; top: 0px; left: 0px; right: 0px; position: absolute; border: 1px solid rgb(204, 204, 204); z-index: 2000000000; background-color: rgb(255, 255, 255); overflow: hidden;"><iframe title="o desafio reCAPTCHA expira em dois minutos" src="https://www.google.com/recaptcha/api2/bframe?hl=pt-BR&amp;v=pCoGBhjs9s8EhFOHJFe8cqis&amp;k=6Lfwb8AUAAAAALMSTakUT9Vbqz8Evpnj6HL6tOd_" name="c-nd9om0rn4k3o" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox" style="width: 100%; height: 100%;"></iframe></div></div></body></html>
