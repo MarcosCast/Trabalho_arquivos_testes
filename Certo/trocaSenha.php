@@ -4,6 +4,7 @@ session_start();
 function senhaValida($password)
 {
     return preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{6,}$/', $password);
+    // eturn preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/', $senha);
 }
 
 function trocarSenha($oldPassword, $newPassword)
@@ -46,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['old_pswd']) && isset(
 
     <input type="submit" value="Trocar Senha">
 </form>
+
+
+
 
 
 

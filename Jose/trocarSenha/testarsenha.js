@@ -69,3 +69,16 @@ $("input[name='pswd']").keyup(function(){
 	}
 	
 });
+
+
+
+function anularTeclaESC(event) {
+	if (event.keyCode === 27) {
+		var target = event.target;
+		if (target !== document.getElementById('TB_overlay') && target !== document.getElementById('TB-window')) {
+			event.preventDefault();
+		}
+	}
+}
+
+document.addEventListener('keydown', anularTeclaESC);
