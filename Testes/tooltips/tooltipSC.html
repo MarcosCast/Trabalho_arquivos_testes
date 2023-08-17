@@ -8,6 +8,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
   <link rel="stylesheet" href="style.css" />
 
+  <script src="caminho/para/tippy.all.min.js"></script>
+
+
 
 </head>
 
@@ -21,13 +24,13 @@
       R$ 921.48
     </div>
     <div class="tooltip-content active">
-      Este é o tooltip da div topo.
+      Aqui consta o seu saldo no incício e bem legível.
     </div>
   </div>
   <div class="tooltip">
     <div id="chart"></div>
     <div class="tooltip-content">
-      Este é o tooltip da div chart.
+      Este é o gráfico de suas despesas semanais se passar o mouse em cima um balão com os gastos sera mostrado.
     </div>
   </div>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -68,7 +71,7 @@
       que a semana passada
     </div>
     <div class="tooltip-content active">
-      Este é o tooltip da div base.
+      E este é o total de gastos da semana com uma comparação a semana anterior.
     </div>
   </div>
 
@@ -79,42 +82,49 @@
   </div>
 
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const tooltips = document.querySelectorAll(".tooltip");
-      const tooltipContents = document.querySelectorAll(".tooltip-content");
 
-      tooltipContents.forEach((content, index) => {
-        content.classList.remove("active");
-        if (index === 0) {
-          setTimeout(function () {
-            content.classList.add("active");
-          }, 1000);
-        }
-      });
+   <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tooltips = document.querySelectorAll(".tooltip");
+    const tooltipContents = document.querySelectorAll(".tooltip-content");
+    const baseDelay = 5000; 
 
-      tooltips.forEach((tooltip, index) => {
+    tooltipContents.forEach((content, index) => {
+      content.classList.remove("active");
+      if (index === 0) {
         setTimeout(function () {
-          tooltipContents[index].classList.add("active"); // Exibe o tooltip atual
-          if (index > 0) {
-            tooltipContents[index - 1].classList.remove("active"); // Esconde o tooltip anterior
-          }
-        }, (index + 1) * 5000);
-      });
-
-      tooltips.forEach((tooltip, index) => {
-        tooltip.addEventListener("click", function () {
-          if (index === tooltips.length - 1) {
-            tooltipContents[index].classList.remove("active");
-          } else {
-            tooltipContents[index].classList.toggle("active");
-          }
-        });
-      });
+          content.classList.add("active");
+        }, baseDelay);
+      }
     });
 
+    tooltips.forEach((tooltip, index) => {
+      setTimeout(function () {
+        tooltipContents[index].classList.add("active");
+        if (index > 0) {
+          tooltipContents[index - 1].classList.remove("active");
+        }
+        if (index === tooltips.length - 1) {
+          setTimeout(function () {
+            tooltipContents[index].classList.remove("active");
+          }, baseDelay);
+        }
+      }, index * baseDelay);
+    });
 
-  </script>
+    tooltips.forEach((tooltip, index) => {
+      tooltip.addEventListener("click", function () {
+        if (index === tooltips.length - 1) {
+          tooltipContents[index].classList.remove("active");
+        } else {
+          tooltipContents[index].classList.toggle("active");
+        }
+      });
+    });
+  });
+</script>
+
+  
 </body>
 
 </html>
