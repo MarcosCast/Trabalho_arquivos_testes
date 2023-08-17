@@ -54,20 +54,21 @@
     }
 
   </script>
-  <div class="tooltip-container">
-    <div class="base tooltip">
-      Total de gastos da semana:
-      <font color="red">
-        <h2>R$227.94</h2>
-      </font>
-      <b>+2.4%</b> <br>
-      que a semana passada
-      <div class="tooltip-content active">
-        <p>Este é o total de gastos da semana. O meio representa a porcentagem de aumento em relação à semana passada. O saldo representa o valor do total de gastos com duas casas decimais.</p>
-        <button class="tooltip-close-btn">Fechar</button>
-      </div>
-    </div>
+<div class="tooltip">
+  <div class="base">
+    Total de gastos da semana:
+    <font color="red">
+      <h2>R$227.94</h2>
+    </font>
+    <b>+2.4%</b> <br>
+    que a semana passada
   </div>
+  <div class="tooltip-content active">
+    Este é o total de gastos da semana. O meio representa a porcentagem de aumento em relação à semana passada. O saldo
+    representa o valor do total de gastos com duas casas decimais.
+  </div>
+</div>
+
 
   <!-- <script>
     $('.base').qtip({
@@ -93,17 +94,18 @@
   
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const tooltips = document.querySelectorAll(".tooltip");
-      tooltips.forEach((tooltip) => {
-        const tooltipContent = tooltip.querySelector(".tooltip-content");
-        const closeButton = tooltip.querySelector(".tooltip-close-btn");
+      const tooltip = document.querySelector(".tooltip");
+      const tooltipContent = tooltip.querySelector(".tooltip-content");
 
-        closeButton.addEventListener("click", function (e) {
-          e.stopPropagation();
-          tooltipContent.classList.remove("active");
-        });
+      tooltip.addEventListener("click", function () {
+        tooltipContent.classList.toggle("active");
       });
+
+      setTimeout(function () {
+        tooltipContent.classList.remove("active");
+      }, 5000); 
     });
   </script>
+</body>
 
 </html>
