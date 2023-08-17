@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Componente Gráfico para Despesa</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+    title="Aqui consta o seu saldo no início e bem legível.">
+    <div class="topo">
+      <img alt="WallpaperFinance" src="./images/logo.svg">
+      Meu Saldo
+      <br>
+      R$ 921.48
+    </div>
+    
+  </div>
+
+  <div class="position-relative" id="chart" data-bs-toggle="tooltip" data-bs-placement="top"
+    title="Este é o gráfico de suas despesas semanais. Passe o mouse para ver os detalhes."></div>
+
+  <div id="total-gastos" class="base position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+    title="E este é o total de gastos da semana com uma comparação a semana anterior.">
+    Total de gastos da semana:
+    <h2 style="color: red;">R$ 227.94</h2>
+    <b>+2.4%</b> <br>
+    que a semana passada
+  </div>
+
+  <div class="atribuicao">
+    <p>Coded by: <a href="https://www.linkedin.com/in/marcos--castro/"> Marcos Castro</a>.</p>
+  </div>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      const container = document.querySelector('#chart');
+      const data = new google.visualization.arrayToDataTable([
+        ['Dia', 'Valor'],
+        ['Dom', 17.45],
+        ['Seg', 34.91],
+        ['Ter', 52.36],
+        ['Qua', 31.07],
+        ['Qui', 23.39],
+        ['Sex', 43.28],
+        ['Sab', 25.48]
+      ]);
+      const options = {
+        title: 'Gastos dos últimos 7 dias',
+        height: 250,
+        width: 400,
+        backgroundColor: '#add8e6'
+      };
+
+      const chart = new google.visualization.ColumnChart(container);
+      chart.draw(data, options);
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-aNmMQJfe/i9M4lG9Cf5J7V9H4p1f4P4p1V+1dVaFCfrjS8CpSKS+Kk5Vh0l/IlD" crossorigin="anonymous"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const tooltips = document.querySelectorAll("[data-bs-toggle='tooltip']");
+      const baseDelay = 5000;
+
+      tooltips.forEach((tooltip, index) => {
+        setTimeout(function () {
+          new bootstrap.Tooltip(tooltip).show();
+        }, index * baseDelay);
+      });
+    });
+
+    // document.addEventListener("DOMContentLoaded", function () {
+    //   const tooltips = document.querySelectorAll("[data-bs-toggle='tooltip']");
+    //   const tooltipContents = document.querySelectorAll(".tooltip-content");
+    //   const baseDelay = 5000;
+
+    //   tooltipContents.forEach((content, index) => {
+    //     content.classList.remove("active");
+    //     if (index === 0) {
+    //       setTimeout(function () {
+    //         content.classList.add("active");
+    //       }, baseDelay);
+    //     }
+    //   });
+
+    //   tooltips.forEach((tooltip, index) => {
+    //     setTimeout(function () {
+    //       new bootstrap.Tooltip(tooltip).show();
+    //       if (index > 0) {
+    //         tooltipContents[index - 1].classList.remove("active");
+    //       }
+    //       if (index === tooltips.length - 1) {
+    //         setTimeout(function () {
+    //           tooltipContents[index].classList.remove("active");
+    //         }, baseDelay);
+    //       }
+    //     }, index * baseDelay);
+    //   });
+
+    //   tooltips.forEach((tooltip, index) => {
+    //     tooltip.addEventListener("click", function () {
+    //       if (index === tooltips.length - 1) {
+    //         tooltipContents[index].classList.remove("active");
+    //       } else {
+    //         tooltipContents[index].classList.toggle("active");
+    //       }
+    //     });
+    //   });
+    // });
+  </script>
+</body>
+
+</html>

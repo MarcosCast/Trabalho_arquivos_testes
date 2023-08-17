@@ -1,0 +1,145 @@
+@charset "UTF-8";
+/* Estilos básicos para dispositivos maiores */
+html {
+  background-image: url("https://portallubes.com.br/wp-content/uploads/2017/11/contabilidade-no-posto-de-combustivel-voce-esta-fazendo-isso-certo.jpeg");
+  background-size: cover;
+  padding: 40px 40px 40px 40px;
+}
+
+body {
+  width: 450px;
+  height: 550px;
+  margin: 0 auto;
+  background-color: #87cefa;
+  padding: 20px;
+  border-radius: 20px;
+  border: 5px outset #6799ac;
+  display: block;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.topo {
+  width: 400px;
+  height: 100px;
+  padding: 0px 20px 20px 20px;
+  background-color: #00bfff;
+  border-radius: 15px;
+  border: inset 5px #6799ac;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-style: initial;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: Verdana;
+  margin-bottom: 20px;
+}
+.topo img {
+  max-width: 100px;
+  height: auto;
+}
+/* 
+.tooltip {
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+}
+
+.tooltip-content {
+  display: none;
+  position: absolute;
+  bottom: 100%; 
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.tooltip-content.active {
+  display: block;
+}
+
+.tooltip::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  display: none;
+}
+
+.tooltip-content.active + ::before {
+  display: block;
+}
+
+.tooltip-close-btn {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+} */
+
+
+.base {
+  background-color: #add8e6;
+  width: 400px;
+  height: 140px;
+  display: block;
+  text-align: start;
+  align-items: flex-start;
+  justify-content: left;
+  margin-bottom: 30px;
+  padding-left: 20px;
+  padding-top: 15px;
+  font-family: Verdana;
+  font-size: smaller;
+  border-top: solid grey 2px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+/* .base .total-gastos {
+  color: red;
+  font-size: 24px;
+  margin: 10px 0;
+} */
+
+.atribuicao {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 11px;
+  color: hsl(228, 45%, 44%);
+}
+
+/* Media query para dispositivos menores, como tablets e celulares */
+@media (max-width: 768px) {
+  html {
+    padding: 20px;
+  }
+  body {
+    width: auto;
+    height: auto;
+    padding: 10px;
+  }
+  .topo {
+    width: 100%;
+    padding: 10px;
+  }
+  .base {
+    width: 100%;
+    padding: 10px;
+  }
+}/*# sourceMappingURL=style.css.map */
