@@ -7,21 +7,29 @@
   <title>Componente Gráfico para Despesa</title>
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
   <link rel="stylesheet" href="style.css" />
-  <!-- 
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/qtip/2.0.0/jquery.qtip.min.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip/2.0.0/jquery.qtip.min.js"></script> -->
+
 
 </head>
 
 <body>
-  <div class="topo">
-    <img alt="WallpaperFinance" src="./images/logo.svg">
-    Meu Saldo
-    <br>
-    R$ 921.48
+
+  <div class="tooltip">
+    <div class="topo">
+      <img alt="WallpaperFinance" src="./images/logo.svg">
+      Meu Saldo
+      <br>
+      R$ 921.48
+    </div>
+    <div class="tooltip-content active">
+      Este é o tooltip da div topo.
+    </div>
   </div>
-  <div id="chart"></div>
+  <div class="tooltip">
+    <div id="chart"></div>
+    <div class="tooltip-content">
+      Este é o tooltip da div chart.
+    </div>
+  </div>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
     google.charts.load('current', { packages: ['corechart'] })
@@ -44,9 +52,7 @@
         title: 'Gastos dos últimos 7 dias',
         height: 250,
         width: 400,
-        backgroundColor: '#add8e6',
-        //borderRadius: 50,
-        //hoverBorderColor: '#fff',
+        backgroundColor: '#add8e6'
       }
 
       const chart = new google.visualization.ColumnChart(container)
@@ -54,57 +60,60 @@
     }
 
   </script>
-<div class="tooltip">
-  <div class="base">
-    Total de gastos da semana:
-    <font color="red">
-      <h2>R$227.94</h2>
-    </font>
-    <b>+2.4%</b> <br>
-    que a semana passada
+  <div class="tooltip">
+    <div class="base">
+      Total de gastos da semana:
+      <h2 style="color: red;">R$227.94</h2>
+      <b>+2.4%</b> <br>
+      que a semana passada
+    </div>
+    <div class="tooltip-content active">
+      Este é o tooltip da div base.
+    </div>
   </div>
-  <div class="tooltip-content active">
-    Este é o total de gastos da semana. O meio representa a porcentagem de aumento em relação à semana passada. O saldo
-    representa o valor do total de gastos com duas casas decimais.
-  </div>
-</div>
 
 
-  <!-- <script>
-    $('.base').qtip({
-      content: 'Este é o total de gastos da semana. O meio representa a porcentagem de aumento em relação à semana passada. O saldo representa o valor do total de gastos com duas casas decimais.',
-      position: {
-        my: 'center top',
-        at: 'center bottom',
-        adjust: {
-          y: 10
-        }
-      },
-      style: {
-        classes: 'qtip-light qtip-shadow',
-        width: 200,
-        close: true
-      }
-    });
-  </script> -->
 
   <div class="atribuicao">
-    Coded by: <a href="https://www.linkedin.com/in/marcos--castro/"> Marcos Castro</a>.
+    <p>Coded by: <a href="https://www.linkedin.com/in/marcos--castro/"> Marcos Castro</a>.</p>p>
   </div>
-  
+
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const tooltip = document.querySelector(".tooltip");
-      const tooltipContent = tooltip.querySelector(".tooltip-content");
+      const tooltips = document.querySelectorAll(".tooltip");
+      const tooltipContents = document.querySelectorAll(".tooltip-content");
 
-      tooltip.addEventListener("click", function () {
-        tooltipContent.classList.toggle("active");
+      tooltipContents.forEach((content, index) => {
+        content.classList.remove("active");
+        if (index === 0) {
+          setTimeout(function () {
+            content.classList.add("active");
+          }, 1000);
+        }
       });
 
-      setTimeout(function () {
-        tooltipContent.classList.remove("active");
-      }, 5000); 
+      tooltips.forEach((tooltip, index) => {
+        setTimeout(function () {
+          tooltipContents[index].classList.add("active"); // Exibe o tooltip atual
+          if (index > 0) {
+            tooltipContents[index - 1].classList.remove("active"); // Esconde o tooltip anterior
+          }
+        }, (index + 1) * 5000);
+      });
+
+      tooltips.forEach((tooltip, index) => {
+        tooltip.addEventListener("click", function () {
+          if (index === tooltips.length - 1) {
+            tooltipContents[index].classList.remove("active");
+          } else {
+            tooltipContents[index].classList.toggle("active");
+          }
+        });
+      });
     });
+
+
   </script>
 </body>
 
