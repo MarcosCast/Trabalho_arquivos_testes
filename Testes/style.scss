@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* Estilos básicos para dispositivos maiores */
 html {
   background-image: url("https://portallubes.com.br/wp-content/uploads/2017/11/contabilidade-no-posto-de-combustivel-voce-esta-fazendo-isso-certo.jpeg");
@@ -35,10 +34,11 @@ body {
   font-size: 18px;
   font-family: Verdana;
   margin-bottom: 20px;
-}
-.topo img {
-  max-width: 100px;
-  height: auto;
+
+  img {
+    max-width: 100px;
+    height: auto;
+  }
 }
 
 .base {
@@ -57,11 +57,12 @@ body {
   border-top: solid grey 2px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-}
-.base .total-gastos {
-  color: red;
-  font-size: 24px;
-  margin: 10px 0;
+
+  .total-gastos {
+    color: red;
+    font-size: 24px;
+    margin: 10px 0;
+  }
 }
 
 .atribuicao {
@@ -77,17 +78,20 @@ body {
   html {
     padding: 20px;
   }
+
   body {
     width: auto;
     height: auto;
     padding: 10px;
   }
+
   .topo {
     width: 100%;
     padding: 10px;
   }
+
   .base {
     width: 100%;
     padding: 10px;
   }
-}/*# sourceMappingURL=style.css.map */
+}
