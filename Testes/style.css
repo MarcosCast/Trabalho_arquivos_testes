@@ -1,0 +1,67 @@
+html {
+  background-image: url("https://portallubes.com.br/wp-content/uploads/2017/11/contabilidade-no-posto-de-combustivel-voce-esta-fazendo-isso-certo.jpeg");
+  background-size: cover;
+  padding: 40px 40px 40px 40px;
+}
+
+body {
+  width: 400px;
+  height: 550px;
+  margin: 0 auto;
+  background-color: #87cefa;
+  padding: 20px;
+  /*webkit-border-radius: 20px;*/
+  border-radius: 20px; 
+  border: 5px outset  #6799ac;
+  display: block;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.topo {
+  width: 400px;
+  height: 100px;
+  padding-left: 0px 20px 20px 20px;
+  background-color: #00bfff;
+  border: #6799ac;
+  border-radius: 15px;
+  border-style: inset 5px #6799ac;
+  display: flex;
+  align-items: center;
+  /*vertical-align: middle;*/
+  justify-content:space-around;
+  /*display: table-cell;*/
+  font-style: initial;
+font-weight: bold;
+font-size: 18px;
+font-family: Verdana;
+  margin-bottom: 20px;
+}
+
+.base {
+  background-color: #add8e6;
+  width: 380px;
+  height: 120px;;
+  display: block;
+  text-align:start;
+  align-items:flex-start;
+  justify-content:left;
+  margin-bottom: 30px;
+  padding-left: 20px;
+  padding-top: 15px;
+  font-family: Verdana;
+  font-size: smaller;
+  border-top: solid grey 2px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+
+}
+
+.atribuicao {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 11px;
+  color: hsl(228, 45%, 44%);   
+}
