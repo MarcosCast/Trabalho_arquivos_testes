@@ -41,6 +41,48 @@ body {
   }
 }
 
+.tooltip-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+}
+
+.tooltip {
+  position: relative;
+  cursor: pointer;
+  text-align: center; /* Centralizar o conteúdo */
+}
+
+.tooltip-content {
+  display: none;
+  position: absolute;
+  bottom: 100%; /* Posição acima do elemento pai */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.tooltip-content.active {
+  display: block;
+}
+
+.tooltip-close-btn {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
 .base {
   background-color: #add8e6;
   width: 380px;
