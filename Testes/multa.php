@@ -59,7 +59,20 @@ if (!$desconsiderar_operacao) {
 
 
 $total_dias = sc_date_dif($data_atual, "aaaa-mm-dd", {data_vencimento}, "dd/mm/aaaa");
+   //------------------------------------------------------------ 
+
+$isentar_multa = {isentar_multa};
+
+$data_vencimento = {data_vencimento};
+
+if ($isentar_multa == "N") {
     
+    if (empty($data_vencimento) || is_null($data_vencimento)) {
+        
+        sc_error_message("Campo Data de Vencimento é obrigatório.");
+    }
+}
+
 
 
 
