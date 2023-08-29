@@ -57,22 +57,8 @@ if (!$desconsiderar_operacao) {
 
 //----------------------------------------------------------------------------
 
-$total_diasano = 0;
-$total_diasmes = 0;
 
-if ( $periodo[2] >= 1 && $periodo[1] >= 1) {
-
-    $total_diasano = $periodo[2] * 365;
-    $total_diasmes = $periodo[1] * 30;
-
-} elseif ( $periodo[1] >= 1 ) {
-
-    $total_diasmes = $periodo[1] * 30;
-
-} 
-
-$total_dias = $periodo[0] + $total_diasmes + $total_diasano;
-
+$total_dias = sc_date_dif({data_cadastro}, "aaaa-mm-dd", $data_atual, "dd/mm/aaaa");
     
 
 
