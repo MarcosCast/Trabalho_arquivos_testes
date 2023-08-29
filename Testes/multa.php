@@ -58,7 +58,7 @@ if (!$desconsiderar_operacao) {
 //----------------------------------------------------------------------------
 
 
-$total_dias = sc_date_dif({data_cadastro}, "aaaa-mm-dd", $data_atual, "dd/mm/aaaa");
+$total_dias = sc_date_dif($data_atual, "aaaa-mm-dd", {data_vencimento}, "dd/mm/aaaa");
     
 
 
