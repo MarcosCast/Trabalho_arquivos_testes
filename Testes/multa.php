@@ -38,9 +38,9 @@ $taca_multa = 12 - $periodo[1]
 
 //---------------------------------------------------------------------------
 
-$desconsiderar_operacao = (isset($_POST['isentar_multa']) && $_POST['isentar_multa'] == 'on');
+$desc_op = (isset($_POST['isentar_multa']) && $_POST['isentar_multa'] == 'on');
 
-if (!$desconsiderar_operacao) {
+if (!$desc_op) {
     $periodo = sc_date_dif_2({ctemp_tsdt_cadastramento}, "aaaa-mm-dd", $data_atual, "aaaa-mm-dd", 1);
 
     if( $periodo[2] >= 1){
