@@ -16,11 +16,11 @@ if([conn_fidelidade] == 'S')
 		
 		//AQUI ELE PODE CRIAR O SQL PARA CRIAR OS DADOS NO BANCO  DE BOLETO
 		
-		$idcontrato = {ctemp_inid_contratoempresa};
-		$valor_multa = {valor_multa};
-		$desconto_multa = {desconto_multa};
-		$total_boleto = {total_boleto};
-		$vencimento = {data_vencimento};
+		// $idcontrato = {ctemp_inid_contratoempresa};
+		// $valor_multa = {valor_multa};
+		// $desconto_multa = {desconto_multa};
+		// $total_boleto = {total_boleto};
+		// $vencimento = {data_vencimento};
 			
 		//die("Total boleto: ".{total_boleto}." ||| Valor Multa: ".{valor_multa}." ||| Desconto: ".{desconto_multa});
 		
