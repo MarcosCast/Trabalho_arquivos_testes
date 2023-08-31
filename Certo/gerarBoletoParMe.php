@@ -431,5 +431,51 @@ if ([conn_fidelidade] == 'S') {
  
     die("[conn_fidelidade] não é 'S'");
 }
+//-------------------------
+if ({checkbox} == 0){
+
+    marcada
+
+}else{
+
+    nao marcada
+
+}
 
 
+if ({isentar_multa}) {
+    echo "funciona"; 
+} else {
+    echo "Não funciona"; 
+}
+
+
+if ({isentar_multa} == "1") {
+    echo "Funfa";
+} else {
+    echo "Não funfa";
+}
+
+die ("fim!");
+
+
+
+
+if ({flag_status} == 'S') {
+    if ({ctemp_tsdt_pedidocancelamento} < date('Y-m-d')) {
+        sc_error_message({lang_err_dtpedidocancelinv});
+    }
+}
+
+if ({conn_fidelidade} == 'S') {
+    if ({conn_isentamulta} == 'N') {        
+        $teste = "CRIEI BOLETO";
+        // Substitua 'NOME_DO_CONTROLE' pelo nome do controle que você deseja chamar
+        sc_redir('NOME_DO_CONTROLE', '', '_blank');
+    }
+    
+    $teste = "MULTA ISENTA";
+    die("FIM DO FLUXO " . $teste);
+}
+
+die({conn_fidelidade});
