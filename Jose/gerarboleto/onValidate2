@@ -25,14 +25,14 @@ if([conn_fidelidade] == 'S')
 		//die("Total boleto: ".{total_boleto}." ||| Valor Multa: ".{valor_multa}." ||| Desconto: ".{desconto_multa});
 		
 		
-		$valor_multa = str_replace("." , "" , {valor_multa}); 
-		$valor_multa = str_replace("," , "" , {valor_multa}); 
+		// $valor_multa = str_replace("." , "" , {valor_multa}); 
+		// $valor_multa = str_replace("," , "" , {valor_multa}); 
 		
-		$desconto_multa = str_replace("." , "" , {desconto_multa}); 
-		$desconto_multa = str_replace("," , "" , {desconto_multa}); 
+		// $desconto_multa = str_replace("." , "" , {desconto_multa}); 
+		// $desconto_multa = str_replace("," , "" , {desconto_multa}); 
 		
-		$total_boleto = str_replace("." , "" , {total_boleto}); 
-		$total_boleto = str_replace("," , "" , {total_boleto}); 
+		// $total_boleto = str_replace("." , "" , {total_boleto}); 
+		// $total_boleto = str_replace("," , "" , {total_boleto}); 
 		
 		die("Total boleto: ".$total_boleto);
 		
@@ -52,8 +52,8 @@ if([conn_fidelidade] == 'S')
 								.$valor_multa.","
 								.$desconto_multa.","
 								.$total_boleto.","
-								.$vencimento.","
-								.''.
+								.$vencimento
+								.",''".
 							" ) ";
 						
 		sc_exec_sql($SQL);
@@ -69,9 +69,14 @@ if([conn_fidelidade] == 'S')
 		$teste = "MULTA ISENTA";
 	}
 	
-	die("FIM DO FLUXO ".$teste." ->>>>>>>>>>>".$SQL);
+	die("FIM DO FLUXO ->>>>>>>>>>>".$SQL);
 }
 
 
 die([conn_fidelidade]);
 ?>
+
+
+strtotime.
+
+$vencimento = date("Y-m-d", $vencimento);
