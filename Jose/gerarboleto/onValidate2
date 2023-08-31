@@ -1,0 +1,77 @@
+<?php 
+
+if ( {flag_status} == 'S' ) {
+	if ( {ctemp_tsdt_pedidocancelamento} < date('Y-m-d') ) {
+		sc_error_message({lang_err_dtpedidocancelinv});
+	}
+}
+
+if([conn_fidelidade] == 'S')
+{
+	
+	
+	
+	if([conn_isentamulta] == 'N')
+	{	
+		
+		//AQUI ELE PODE CRIAR O SQL PARA CRIAR OS DADOS NO BANCO  DE BOLETO
+		
+		$idcontrato = {ctemp_inid_contratoempresa};
+		$valor_multa = {valor_multa};
+		$desconto_multa = {desconto_multa};
+		$total_boleto = {total_boleto};
+		$vencimento = {data_vencimento};
+			
+		//die("Total boleto: ".{total_boleto}." ||| Valor Multa: ".{valor_multa}." ||| Desconto: ".{desconto_multa});
+		
+		
+		$valor_multa = str_replace("." , "" , {valor_multa}); 
+		$valor_multa = str_replace("," , "" , {valor_multa}); 
+		
+		$desconto_multa = str_replace("." , "" , {desconto_multa}); 
+		$desconto_multa = str_replace("," , "" , {desconto_multa}); 
+		
+		$total_boleto = str_replace("." , "" , {total_boleto}); 
+		$total_boleto = str_replace("," , "" , {total_boleto}); 
+		
+		die("Total boleto: ".$total_boleto);
+		
+		$SQL = "INSERT INTO empresa.ut_boletomulta ".
+							" ( ".
+								" ctemp_inid_contratoempresa, ".
+								" dmvl_valor, ".
+								" dmvl_desconto, ".
+								" dmvl_boleto,". 
+								" tsdt_vencimento,".
+								" link_boleto ".
+							" ) "
+			
+							." VALUES ".
+			
+							" ( ".$idcontrato.","
+								.$valor_multa.","
+								.$desconto_multa.","
+								.$total_boleto.","
+								.$vencimento.","
+								.''.
+							" ) ";
+						
+		sc_exec_sql($SQL);
+		
+		$teste = "CRIEI BOLETO";
+		
+		// PROVAVELMENTE SAI
+		//sc_redir(ctrl_gerarboleto_caio,conn_valor = {total_boleto}, '_self');
+	}
+
+	else
+	{
+		$teste = "MULTA ISENTA";
+	}
+	
+	die("FIM DO FLUXO ".$teste." ->>>>>>>>>>>".$SQL);
+}
+
+
+die([conn_fidelidade]);
+?>
