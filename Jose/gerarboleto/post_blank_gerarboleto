@@ -1,0 +1,158 @@
+//$data = file_get_contents("php://input");
+
+//$signature = $_SERVER['HTTP_X_HUB_SIGNATURE'];
+
+//$dados = "signature:".$signature." ".$data;
+
+//sc_exec_sql( "INSERT INTO gestorcard.ut_postback_pagarme(postback_pagarme) VALUES ('".$dados."')" );
+
+$SQL = " SELECT postback_pagarme FROM gestorcard.ut_postback_pagarme ".
+			" WHERE cadastramento = '2023-05-16 13:46:04.975455'";
+
+sc_lookup(rsRet, $SQL);
+	
+if ( isset({rsRet[0][0]}) ) 
+{
+	$dados = {rsRet[0][0]};	
+}
+
+$data = explode("&", urldecode($dados));
+$arr = [];
+
+foreach ($data as $data) {
+    array_push($arr, explode(",", $data));
+}
+
+echo "<pre>P1: "; print_r( $arr ); echo "</pre>";
+//die;
+
+$status 	= explode("=",$arr[5][0] );
+$dtPago		= explode("=",$arr[20][0] );
+$vlPago 	= explode("=",$arr[23][0]);
+$urlBoleto 	= explode("=",$arr[40][0]); 
+$barcode 	= explode("=",$arr[41][0]);
+$idBoleto	= explode("=",$arr[50][0]);
+$idPreCad	= explode("=",$arr[51][0]);
+
+//echo "<pre>P1: "; print_r( $dtPago ); echo "</pre>";
+//die;
+/*
+echo $status[1]."<br>"; //Status > current_status
+echo $vlPago[1]."<br>"; //Valor Pago > paid_amount
+echo $urlBoleto[1]."<br>"; //boleto_url
+echo $barcode[1]."<br>"; //boleto_barcode
+echo $idBoleto[1]."<br>"; //Id do Boleto
+echo $idPreCad[1]."<br>"; //Id do Pré-cadastro
+
+echo "<pre>P1: "; print_r( $arr ); echo "</pre>";
+die;
+*/
+
+
+$status 	= trim($status[1]);
+$vlPago 	= $vlPago[1];
+$urlBoleto 	= trim($urlBoleto[1]); 
+$barcode 	= trim($barcode[1]);
+$idBoleto	= trim($idBoleto[1]);
+$idPreCad	= $idPreCad[1];
+$dtPago		= substr(trim($dtPago[1]), 0, -14);
+$vlPagoFormat = 0;
+
+if( isset($vlPago) && $vlPago > 0 )
+{
+	$vlPagoFormat = ($vlPago/100.0);
+}	
+
+//die;
+ 
+//print_r($arr);
+//echo "<pre>P1: "; print_r( $arr ); echo "</pre>";
+
+//print_r(json_encode($arr));
+
+$SQL = " Update gestorcard.ut_boletoadesao ".
+			" Set status_pagarme = '".$status."'".
+				  ",linha_digitavel = '".$barcode."'".
+				  ",link_boleto = '".$urlBoleto."' ".
+				  ",valor_pagamento = ".$vlPagoFormat;
+
+if( trim($status) == 'paid' )
+{
+	$SQL .= ",data_pagamento = '".$dtPago."'";
+}
+
+//$SQL .= ",data_pagamento = null";
+
+$SQL .= " Where inid_precadastroempresa = ".$idPreCad.
+				" And idboleto_pagarme = ".$idBoleto;
+	
+sc_exec_sql($SQL);
+
+echo $SQL;
+die;
+
+/*require("vendor/autoload.php");
+$pagarme = new PagarMe\Client('SUA_CHAVE_DE_API');
+
+
+	 			  ",data_pagamento = '".$dtPago."'".
+			" Where inid_precadastroempresa = ".$idPreCad.
+				" And idboleto_pagarme = ".$idBoleto;
+
+$requestBody = file_get_contents("php://input"); 
+$signature = $_SERVER['HTTP_X_HUB_SIGNATURE'];
+
+$isValidPostback = $pagarme->postbacks()->validate($requestBody, $signature);
+
+if ($isValidPostback) {
+  echo "Postback válido";
+} else {
+  echo "Postback inválido";
+}*/
+
+/*
+//PostBack do boleto PagarMe
+$data = file_get_contents("php://input");
+
+
+//echo ".";
+
+
+$data = "id=15669799&fingerprint=3a5a507257b57196b668b93095883d4a23c00965&event=transaction_status_changed&old_status=waiting_payment&desired_status=paid&current_status=paid&object=transaction&transaction%5Bobject%5D=transaction&transaction%5Bstatus%5D=paid&transaction%5Brefuse_reason%5D=&transaction%5Bstatus_reason%5D=acquirer&transaction%5Bacquirer_response_code%5D=&transaction%5Bacquirer_name%5D=pagarme&transaction%5Bacquirer_id%5D=6048eb89864971001965e6aa&transaction%5Bauthorization_code%5D=&transaction%5Bsoft_descriptor%5D=&transaction%5Btid%5D=15669799&transaction%5Bnsu%5D=15669799&transaction%5Bdate_created%5D=2022-01-13T20%3A38%3A58.755Z&transaction%5Bdate_updated%5D=2022-01-13T20%3A52%3A54.869Z&transaction%5Bamount%5D=79000&transaction%5Bauthorized_amount%5D=79000&transaction%5Bpaid_amount%5D=79000&transaction%5Brefunded_amount%5D=0&transaction%5Binstallments%5D=1&transaction%5Bid%5D=15669799&transaction%5Bcost%5D=0&transaction%5Bcard_holder_name%5D=&transaction%5Bcard_last_digits%5D=&transaction%5Bcard_first_digits%5D=&transaction%5Bcard_brand%5D=&transaction%5Bcard_pin_mode%5D=&transaction%5Bcard_magstripe_fallback%5D=false&transaction%5Bcvm_pin%5D=false&transaction%5Bpostback_url%5D=http%3A%2F%2Ficeos.com.br%2Fscriptcase9%2Fapp%2FJOSE%2Fblnk_postback_boletopagarme&transaction%5Bpayment_method%5D=boleto&transaction%5Bcapture_method%5D=ecommerce&transaction%5Bantifraud_score%5D=&transaction%5Bboleto_url%5D=https%3A%2F%2Fpagar.me&transaction%5Bboleto_barcode%5D=1234%205678&transaction%5Bboleto_expiration_date%5D=2022-01-16T03%3A00%3A00.000Z&transaction%5Breferer%5D=api_key&transaction%5Bip%5D=51.79.82.137&transaction%5Bsubscription_id%5D=&transaction%5Bphone%5D=&transaction%5Baddress%5D=&transaction%5Bcustomer%5D%5Bobject%5D=customer&transaction%5Bcustomer%5D%5Bid%5D=8073503&transaction%5Bcustomer%5D%5Bexternal_id%5D=7&transaction%5Bcustomer%5D%5Btype%5D=individual&transaction%5Bcustomer%5D%5Bcountry%5D=br&transaction%5Bcustomer%5D%5Bdocument_number%5D=&transaction%5Bcustomer%5D%5Bdocument_type%5D=cpf&transaction%5Bcustomer%5D%5Bname%5D=EMPRESA%20GESTORCARD%20TESTE&transaction%5Bcustomer%5D%5Bemail%5D=josekeury%40iceos.com.br&transaction%5Bcustomer%5D%5Bphone_numbers%5D%5B0%5D=%2B5561991990190&transaction%5Bcustomer%5D%5Bborn_at%5D=&transaction%5Bcustomer%5D%5Bbirthday%5D=&transaction%5Bcustomer%5D%5Bgender%5D=&transaction%5Bcustomer%5D%5Bdate_created%5D=2022-01-13T20%3A38%3A58.724Z&transaction%5Bcustomer%5D%5Bdocuments%5D%5B0%5D%5Bobject%5D=document&transaction%5Bcustomer%5D%5Bdocuments%5D%5B0%5D%5Bid%5D=doc_ckydfps4v02b50i9t9k1s463t&transaction%5Bcustomer%5D%5Bdocuments%5D%5B0%5D%5Btype%5D=cpf&transaction%5Bcustomer%5D%5Bdocuments%5D%5B0%5D%5Bnumber%5D=88579054036&transaction%5Bbilling%5D=&transaction%5Bshipping%5D=&transaction%5Bcard%5D=&transaction%5Bsplit_rules%5D=&transaction%5Breference_key%5D=&transaction%5Bdevice%5D=&transaction%5Blocal_transaction_id%5D=&transaction%5Blocal_time%5D=&transaction%5Bfraud_covered%5D=false&transaction%5Bfraud_reimbursed%5D=&transaction%5Border_id%5D=&transaction%5Brisk_level%5D=unknown&transaction%5Breceipt_url%5D=&transaction%5Bpayment%5D=&transaction%5Baddition%5D=&transaction%5Bdiscount%5D=&transaction%5Bprivate_label%5D=&transaction%5Bpix_qr_code%5D=&transaction%5Bpix_expiration_date%5D=";
+
+
+
+
+$arrData = explode("&", $data);
+
+*/
+
+//echo print_r( $arrData["fingerprint"] );
+//echo ($arrData); echo "<pre> "; print_r ($arrData); echo "</pre>";
+
+
+/*$data = explode("&", $data);
+$arr = [];
+foreach ($data as $data) {
+    array_push($arr, explode(",", $data));
+}
+print_r(json_encode($arr));*/
+
+
+
+//$arrTeste = $arrData[10];
+//$id = explode("=", $arrTeste);
+//echo  $id[1];
+
+
+
+//verificar resultado de post_back na pagarME
+//curl -X GET 'https://api.pagar.me/1/transactions/:transaction_id/postbacks?api_key=SUA_API_KEY'
+
+
+//EXPECTED_SIGNATURE = `cat postback_body | openssl dgst -sha1 -hmac "SUA_API_KEY"`
+//SIGNATURE = $_SERVER['HTTP_X_HUB_SIGNATURE'];
+//if( [ "$SIGNATURE" = "$EXPECTED_SIGNATURE" ] )
+//{
+//    echo "Valid Signature";
+//{
