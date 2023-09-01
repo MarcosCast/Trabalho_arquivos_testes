@@ -5,3 +5,106 @@ Exemplo: <button onclick=sc_nomeDaAplicação_nomeDoCampo_onclick()> Boleto </bu
 // {txt_boleto} =  "<a target='{id}' href='LOCAL/script.php?Cod={id}'><img src='Local/Imagem'  width='15' height='15'></a>";
 //esconder botão fas fa-power-off fa-lg 
 
+$ligadocancelamento = 'N';
+$ligadoboleto = 'N';
+$tipoPerfil = cprime_getSessionVar("login", null, "perfi_dmtp_perfil");
+
+{status_boletomulta} = 'N/A';
+
+// $sql = " SELECT CASE	WHEN status_boletomulta IS NULL Then 'N/A'
+// 						WHEN status_boletomulta = 'waiting_payment' THEN 'Aguardando Pagamento'
+// 						WHEN status_boletomulta = 'Pago' THEN ' Pago'
+// 						WHEN status_boletomulta = 'paid' THEN ' Pago'
+// 				END
+// 		FROM gestorcard.ut_boletoadesao
+// 		WHERE data_cancelamento is null and inid_precadastroempresa = {inid_precadastroempresa} 
+// 		ORDER BY DATA_CADASTRO LIMIT 1 ";
+
+// sc_lookup(rsboleto, $sql);
+
+// if ( isset({rsboleto[0][0]}) ) 
+// {
+// 	{status_boletomulta} = {rsboleto[0][0]};
+// }
+// else
+// {
+// 	{status_boletomulta} = "N/A";	
+// }	
+
+
+ if ( $tipoPerfil == 'ADMIN' || $tipoPerfil == 'CPRIME' ) {
+// 	$ligadocancelamento = 'S';
+    $ligadoboleto = 'S';
+ }
+
+
+//Adicionar campo do banco isentar multa, se for isento tambem aceitar na condição
+if ( {status_boletomulta} == 'PAGO' )  {  
+	
+	$ligadocancelamento = 'S';
+
+} else {
+	
+    $ligadocancelamento = 'N';
+	
+}
+
+
+$icone = 'scriptcase__NM__ico__NM__document_down_16.png';
+$refs = array(
+	array( 
+		"target"            => "desligar",
+		"icone"         => $icone,
+		"app"           => "form_cancelamentocontratoempresa", 
+		"args"          => "ctemp_inid_contratoempresa={ctemp_inid_contratoempresa};".
+							"conn_empre_vcnm_razaosocial={empre_vcnm_razaosocial}",
+		"enable"		=> $ligadocancelamento,
+		"width"			=> 900,
+		"height"		=> 500,
+		"hintEnabled"   => 'Cancelamento do Contrato da Empresa',
+		"hintDisabled"  => '', 
+		"icobootstrap"  => 'fas fa-power-off fa-lg', 
+	),
+	array(
+		"target"            => "boleto",
+		"icone"         => $icone,
+		"app"           => "form_gerarboletoqueseracriadoainda", // Verificar o nome não sei se é esse 
+		"args"          => "ctemp_inid_contratoempresa={ctemp_inid_contratoempresa};".
+						   "conn_empre_vcnm_razaosocial={empre_vcnm_razaosocial}",
+		"enable"		=> $ligadoboleto,
+		"width"			=> 32,
+		"height"		=> 32,
+		"hintEnabled"   => 'Gerar Boleto',
+		"hintDisabled"  => '', 
+		"icobootstrap"  => 'fas fa-barcode fa-lg',
+	),
+);
+{Acoes} = cprime_montaCampoImagens( $refs );
+
+//<button onclick=sc_nomeDaAplicação_nomeDoCampo_onclick()> Boleto </button>
+
+// {txt_boleto} =  "<a target='{id}' href='LOCAL/script.php?Cod={id}'><img src='Local/Imagem'  width='15' height='15'></a>";
+	
+//esconder botão fas fa-power-off fa-lg 
+
+
+$cep            = cprime_mascaraCampo( {empre_chcd_cep}, "##.###-###" );
+$telefone1      = cprime_mascaraCampo( {empre_binu_telefone1}, "(##) #####-####;(##) ####-####" );
+$telefone2      = cprime_mascaraCampo( {empre_binu_telefone2}, "(##) #####-####;(##) ####-####" );
+$celularContato = cprime_mascaraCampo( {empre_binu_celularcontato}, "(##) #####-####;(##) ####-####" );
+
+$hint = {lang_geral_endereco}.": <strong>".{empre_vcds_endereco}."</strong><br/>".
+		{lang_geral_bairro}.": <strong>".{empre_vcnm_bairro}."</strong><br/>".
+		{lang_geral_cidade}.": <strong>".{empre_vcnm_cidade}."</strong><br/>".
+		{lang_geral_uf}.": <strong>".{empre_chcd_uf}."</strong><br/>".
+		{lang_geral_cep}.": <strong>".$cep."</strong><br/>".
+		{lang_geral_telefone}." 1: <strong>".$telefone1."</strong><br/>".
+		{lang_geral_telefone}." 2: <strong>".$telefone2."</strong><br>".
+		{lang_geral_contato}.": <strong>".{empre_vcnm_contato}."</strong><br/>".
+		{lang_geral_celular}.": <strong>".$celularContato."</strong><br/>".
+		{lang_geral_emailcontato}.": <strong>".{empre_vcem_contato}."</strong>";
+
+//cprime_montaHintCampo( {empre_vcnm_razaosocial}, $hint );
+
+//$tamanho = cprime_getSessionVar("size", null, "ctemp_inid_contratoempresa" );
+//{ctemp_inid_contratoempresa} = cprime_completaZerosEsquerda( $tamanho, {ctemp_inid_contratoempresa} );
