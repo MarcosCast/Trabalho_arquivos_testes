@@ -1,0 +1,7 @@
+Dentro do campo ajuda da label no scriptcase:
+
+Exemplo: <button onclick=sc_nomeDaAplicação_nomeDoCampo_onclick()> Boleto </button>
+
+// {txt_boleto} =  "<a target='{id}' href='LOCAL/script.php?Cod={id}'><img src='Local/Imagem'  width='15' height='15'></a>";
+//esconder botão fas fa-power-off fa-lg 
+
