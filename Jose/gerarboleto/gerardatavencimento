@@ -1,0 +1,274 @@
+Adicione um botão ou link na sua aplicação Controle para acionar a seleção da data de vencimento. 
+Por exemplo, você pode adicionar um botão "Selecionar Data de Vencimento" e definir seu evento para executar um código 
+JavaScript.
+
+No evento JavaScript do botão "Selecionar Data de Vencimento", você 
+pode usar uma biblioteca de caixa de diálogo modal como o Bootstrap Modal ou criar um modal personalizado usando 
+JavaScript puro ou jQuery. Neste exemplo, vou usar o Bootstrap Modal.
+
+Dentro do modal, você pode adicionar um campo de entrada de data ou usar um datepicker para permitir ao usuário 
+selecionar a data de vencimento desejada.
+
+Após o usuário selecionar a data de vencimento e confirmar, você pode pegar essa data usando JavaScript e, 
+em seguida, enviá-la de volta para o seu código PHP no servidor para verificar se é necessário gerar o boleto.
+
+Aqui está um exemplo de como seu código JavaScript para abrir o modal e enviar a data de vencimento de 
+volta para o servidor pode parecer:
+
+
+
+// JavaScript para abrir o modal
+$("#btnSelecionarData").click(function() {
+    $("#modalSelecionarData").modal("show");
+});
+
+// JavaScript para enviar a data de vencimento de volta para o servidor
+$("#btnConfirmarData").click(function() {
+    var dataVencimento = $("#inputDataVencimento").val();
+    
+    // Envie a data de vencimento de volta para o servidor usando AJAX
+    $.ajax({
+        type: "POST",
+        url: "seuscript.php", // Substitua com o URL do seu script PHP
+        data: { data_vencimento: dataVencimento },
+        success: function(response) {
+            // Aqui você pode lidar com a resposta do servidor, como gerar o boleto ou exibir mensagens
+        }
+    });
+
+    // Feche o modal após o envio
+    $("#modalSelecionarData").modal("hide");
+});
+
+
+
+No seu script PHP, você deve agora verificar a data de vencimento recebida do 
+cliente e decidir se deve ou não gerar o boleto com base nessa data. Certifique-se de substituir 
+"seuscript.php" pelo nome correto do seu script PHP que lida com a lógica do boleto.
+
+
+-------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal com JavaScript Puro</title>
+    <style>
+        /* Estilo para cobrir a tela com um fundo escuro */
+        .modal-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        /* Estilo para o modal em si */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <button id="btnSelecionarData">Selecionar Data de Vencimento</button>
+    <div class="modal-bg" id="modalBg"></div>
+    <div class="modal" id="modal">
+        <h2>Selecione a Data de Vencimento</h2>
+        <input type="date" id="dataVencimento">
+        <button id="btnConfirmarData">Confirmar</button>
+    </div>
+
+    <script>
+        // Função para abrir o modal
+        function abrirModal() {
+            document.getElementById("modalBg").style.display = "block";
+            document.getElementById("modal").style.display = "block";
+        }
+
+        // Função para fechar o modal
+        function fecharModal() {
+            document.getElementById("modalBg").style.display = "none";
+            document.getElementById("modal").style.display = "none";
+        }
+
+        // Evento de clique no botão "Selecionar Data de Vencimento"
+        document.getElementById("btnSelecionarData").addEventListener("click", abrirModal);
+
+        // Evento de clique no botão "Confirmar"
+        document.getElementById("btnConfirmarData").addEventListener("click", function() {
+            var dataVencimento = document.getElementById("dataVencimento").value;
+
+            // Envie a data de vencimento para o servidor aqui
+            console.log("Data de Vencimento Selecionada: " + dataVencimento);
+
+            // Feche o modal após o envio
+            fecharModal();
+        });
+    </script>
+</body>
+</html>
+
+
+
+$idcontrato = [conn_ctemp_inid_contratoempresa];
+
+
+if (empty({data_vencimento})) {
+    sc_error_message("Por favor, insira a data de vencimento.");
+} else {
+    sc_btn_display("ok", "off");
+
+    if( [conn_status] == 0)
+    {
+        $sql = "SELECT inid_precadastroempresa FROM gestorcard.ut_boletoadesao ".
+                " WHERE ctemp_inid_contratoempresa = ".$idcontrato; 
+
+        sc_lookup(rsPre, $sql);
+
+        if ( isset({rsPre[0][0]}) ) 
+        {
+            sc_alert("Já Existe Boleto para o Pré-Cadastro Informado.", []);
+        }
+        else
+        {   
+            $ret_boleto = array();
+            $ret_boleto = gerarBoleto($idcontrato);
+
+            if( isset($ret_boleto["error"]) )
+            {
+                {mensagem} = "Falha na Geração do Boleto!".
+                             "Erro: ".$ret_boleto["message"]."<br>";
+            }   
+            else
+            {   
+                {mensagem} = "Boleto Gerado com Sucesso";
+            }
+        }   
+    }
+    else
+    {
+        sc_btn_display("ok", "off");
+    } 
+
+    [conn_status]++;
+}
+
+
+-----------------------------------
+
+
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Modal</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <style>
+    /* Estilos do modal */
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-dialog {
+      max-width: 500px;
+      margin: 100px auto;
+    }
+
+    .modal-content {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #ffffff;
+      opacity: 0.5;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #ffffff;
+      opacity: 1;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-footer {
+      padding: 20px;
+      border-top: 1px solid #ccc;
+    }
+
+    .btn {
+      border-radius: 5px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="modal fade" id="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Meu Modal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Este é o conteúdo do meu modal
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
+<?php
