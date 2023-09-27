@@ -36,5 +36,33 @@ $senha = 'aB1@xy$z';
 $nivelForca = verificarSenha($senha);
 echo "Nível de força da senha: " . $nivelForca;
 
+//Tipo 1
+
+if (preg_match('/[\W]/', $variavel)) {
+
+    $string = $variavel;
+
+    $comAcentos = array('à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ü', 'ú', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'O', 'Ù', 'Ü', 'Ú');
+    $semAcentos = array('a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'y', 'A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U');
+    
+    $string_limpa = str_replace($comAcentos, $semAcentos, $string);
+
+    echo ($string_limpa);
+    die ();
+
+}
+
+//Tipo 2
+
+if (preg_match('/[\W]/', $variavel)) {
+
+    $string = preg_replace('/[^a-zA-Z0-9\s]/', '', $variavel);
+
+    echo ($string);
+    die ();
+
+}
+
+
 ?>
 

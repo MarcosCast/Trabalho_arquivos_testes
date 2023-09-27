@@ -272,3 +272,53 @@ if (empty({data_vencimento})) {
 </body>
 </html>
 <?php
+
+
+function verificarDataVazio() {
+    if (empty(document.getElementById({cmult_tsdt_vencimentomultafidelidade}).value)) {
+        alert("Por favor, insira a data de vencimento.");
+        return false;
+    }
+    return true;
+} 
+
+document.getElementById('btn_gerarBoleto').onclick = verificarDataVazio;
+
+
+
+[conn_ctemp_inid_contratoempresa];
+[conn_empre_vcnm_razaosocial];
+
+if (!empty({sc_where_filter})) 
+{
+    // Obter a data atual no formato AAAA-MM-DD
+    $dataAtual = date('Y-m-d');
+
+    $pos = strpos({sc_where_filter},'00:00:00') - 11;
+    $dataInicial = substr({sc_where_filter}, $pos, 10);
+    $pos = strpos({sc_where_filter},'23:59:59') - 11;
+    $dataFinal = substr({sc_where_filter}, $pos, 10);
+
+    [conn_datainicio] = $dataInicial.' 00:00:00';
+    [conn_datafim] = $dataFinal.' 23:59:59';
+
+    $dataInicial = cprime_formataData($dataInicial, 'AAAA-MM-DD', 'DD/MM/AAAA');
+    $dataFinal = cprime_formataData($dataFinal, 'AAAA-MM-DD', 'DD/MM/AAAA');
+
+    // Definir dataInicial como a data atual se estiver vazia
+    if (empty($dataInicial)) {
+        $dataInicial = cprime_formataData($dataAtual, 'AAAA-MM-DD', 'DD/MM/AAAA');
+        [conn_datainicio] = $dataAtual . ' 00:00:00';
+    }
+
+    {titulo} = "Período: " . $dataInicial . " a " . $dataFinal;
+    {sc_where_filter};
+} 
+
+
+$data_atual = sc_date(date('Y-m-d'));
+
+echo($data_atual);
+die();
+
+[conn_datainicio] = data_atual();
